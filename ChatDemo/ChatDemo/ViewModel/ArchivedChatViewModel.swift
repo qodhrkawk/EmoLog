@@ -222,24 +222,8 @@ class ArchivedChatViewModel: ObservableObject, ChatViewModel {
                 var seen = Set<String>()
                 let uniqueEmotions = rawEmotions.filter { seen.insert($0.name).inserted }
                 
-                // 이모지 + 설명 매핑
-                func formatEmotion(_ emotion: Emotion) -> String {
-                    switch emotion {
-                    case .joy: return ("😊")
-                    case .happy: return ("😄")
-                    case .sad: return ("😢")
-                    case .frustrated: return ("😤")
-                    case .angry: return ("😠")
-                    case .anticipation: return ("🤔")
-                    case .surprise: return ("😲")
-                    case .trust: return ("🤝")
-                    case .fear: return ("😨")
-                    }
-                }
-                
                 let formattedLines = uniqueEmotions.map { user in
-                    let emoji = formatEmotion(user.emotion)
-                    return "• \(user.name): \(emoji) \(user.emotion.rawValue.capitalized)"
+                    return "• \(user.name): \(user.emotion.rawValue.capitalized)"
                 }
                 
                 let reportText = """
@@ -267,7 +251,7 @@ class ArchivedChatViewModel: ObservableObject, ChatViewModel {
 @Generable(description: "A detected keyword information")
 struct KeywordAnalysisResult {
     @Guide(description: "")
-    let keyword: Keyword
+    let keyword: Category
     @Guide(description: "A confidence of the keyword", .range(0...100))
     let confidence: Int
 }

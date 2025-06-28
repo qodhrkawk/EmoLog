@@ -7,17 +7,34 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
     @FocusState private var isTextFieldFocused: Bool
     @State private var showSettings = false
     @State private var showAnalysisOptions = false
-    
+
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
     }
+
     var body: some View {
         VStack(spacing: 0) {
             ScrollViewReader { scrollProxy in
                 ScrollView {
                     VStack(spacing: 12) {
-                        ForEach(viewModel.messages) { message in
-                            ChatBubble(message: message)
+                        ForEach(groupedMessages(), id: \.date) { group in
+                            Section(header:
+                                Text(formattedDate(group.date))
+                                    .font(.caption.weight(.semibold))
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 4)
+                                    .background(
+                                        Capsule()
+                                            .fill(Color.black.opacity(0.2)) // 또는 원하는 색상
+                                    )
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.top, 8)
+                            ){
+                                    ForEach(group.messages) { message in
+                                        ChatBubble(message: message)
+                                    }
+                            }
                         }
                         Spacer()
                         Color.clear
@@ -94,7 +111,6 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
                     Toggle("Convert to Korean", isOn: $viewModel.isKorean)
                         .padding()
                 }
-
                 Spacer()
             }
             .padding()
@@ -105,7 +121,6 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
                 VStack(spacing: 16) {
                     Text("Choose Analysis")
                         .font(.headline)
-                    
                     ForEach(ChatAnalysis.allCases) { analysis in
                         Button(analysis.label) {
                             showAnalysisOptions = false
@@ -116,7 +131,6 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
                         .background(Color.blue.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
-                    
                     Button("Cancel") {
                         showAnalysisOptions = false
                     }
@@ -124,12 +138,10 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
                 }
                 .padding()
                 .presentationDetents([.height(400)])
-            }
-            else if let viewModel = viewModel as? LiveChatViewModel {
+            } else if let viewModel = viewModel as? LiveChatViewModel {
                 VStack(spacing: 16) {
                     Text("Choose Analysis")
                         .font(.headline)
-                    
                     Button("Get birthday") {
                         showAnalysisOptions = false
                         viewModel.birthday()
@@ -138,7 +150,6 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
                     .frame(maxWidth: .infinity)
                     .background(Color.blue.opacity(0.1))
                     .clipShape(RoundedRectangle(cornerRadius: 12))
-                    
                     Button("Cancel") {
                         showAnalysisOptions = false
                     }
@@ -149,9 +160,22 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
             }
         }
     }
+
+    private func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        formatter.locale = Locale(identifier: "en_US")
+        return formatter.string(from: date)
+    }
+
+    private func groupedMessages() -> [(date: Date, messages: [Message])] {
+        let grouped = Dictionary(grouping: viewModel.messages) { message in
+            Calendar.current.startOfDay(for: message.date)
+        }
+        return grouped.map { ($0.key, $0.value) }.sorted { $0.0 < $1.0 }
+    }
 }
-
-
 
 // MARK: - Color Extension
 extension Color {

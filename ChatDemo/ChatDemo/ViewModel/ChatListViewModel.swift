@@ -62,7 +62,7 @@ class ChatListViewModel: ObservableObject {
                     Message(sender: User.jongyoun, text: "That rarely happens. Kind of impressive."),
                     Message(sender: User.hyeonji, text: "Everyone was surprisingly focused today."),
                     Message(sender: User.wonseob, text: "Except when we got sidetracked by the coffee machine discussion."),
-                    Message(sender: User.hyeonji, text: "[Sticker]"),
+                    Message(sender: User.hyeonji, sticker: .angry),
                     Message(sender: User.me, text: "Wait, that sticker is adorable."),
                     Message(sender: User.junhyuk, text: "I was just about to say that! I’ve never seen that one."),
                     Message(sender: User.jongyoun, text: "Seriously, how do you always have the best stickers?"),

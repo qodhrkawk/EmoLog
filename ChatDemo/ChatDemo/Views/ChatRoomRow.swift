@@ -8,10 +8,15 @@ struct ChatRoomRow: View {
             Text(room.title)
                 .font(.headline)
             if let lastMessage = room.messages.last {
-                Text("\(lastMessage.text)")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                    .lineLimit(1)
+                if case let .text(text) = lastMessage.type {
+                    Text(text)
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .lineLimit(1)
+                }
+                else {
+                    // TODO
+                }
             }
         }
         .padding(.vertical, 4)

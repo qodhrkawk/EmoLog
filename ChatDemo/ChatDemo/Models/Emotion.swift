@@ -1,22 +1,21 @@
 import FoundationModels
 
-@Generable
+@Generable(description: "User name and emotion")
 struct UserEmotion {
     @Guide(description: "The name of user")
     let name: String
     @Guide(description: "The emotion of user")
     let emotion: Emotion
+    @Guide(description: "The strength of emotion", .range(0...100))
+    let confidence: Int
 }
 
-@Generable
+@Generable(description: "An user's emotion from the conversation")
 enum Emotion: String {
-    case joy
     case happy
     case sad
-    case frustrated
     case angry
-    case anticipation
-    case surprise
-    case trust
     case fear
+    case surprise
+    case love
 }
