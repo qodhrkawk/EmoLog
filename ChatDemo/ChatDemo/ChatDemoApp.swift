@@ -1,17 +1,19 @@
-//
-//  ChatDemoApp.swift
-//  ChatDemo
-//
-//  Created by Yunjae Kim on 6/28/25.
-//
-
 import SwiftUI
+import SwiftData
 
 @main
 struct ChatDemoApp: App {
     var body: some Scene {
         WindowGroup {
-            ChatListView()
+            RootView()
         }
+        .modelContainer(for: [ChatRoomEntity.self, MessageEntity.self, UserEntity.self])
+    }
+}
+
+private struct RootView: View {
+    @Environment(\.modelContext) private var context
+    var body: some View {
+        ChatListView(context: context)
     }
 }

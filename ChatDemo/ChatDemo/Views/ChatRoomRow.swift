@@ -5,11 +5,11 @@ struct ChatRoomRow: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(room.title)
+            Text(room.name)
                 .font(.headline)
             if let lastMessage = room.messages.last {
-                if case let .text(text) = lastMessage.type {
-                    Text(text)
+                if let textMessage = lastMessage as? TextMessage {
+                    Text(textMessage.text)
                         .font(.subheadline)
                         .foregroundColor(.gray)
                         .lineLimit(1)

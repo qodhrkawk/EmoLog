@@ -53,14 +53,14 @@ struct ChatBubble: View {
 
     @ViewBuilder
     private var contentView: some View {
-        switch message.type {
-        case .text(let text):
-            Text(text)
+        if let textMessage = message as? TextMessage {
+            Text(textMessage.text)
                 .padding(10)
                 .background(isSender ? Color.messageGreen : Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-        case .sticker(let sticker):
-            sticker.image
+        }
+        else if let stickerMessage = message as? StickerMessage {
+            stickerMessage.sticker.image
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 120, height: 120)

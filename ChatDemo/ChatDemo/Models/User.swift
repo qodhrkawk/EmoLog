@@ -1,12 +1,12 @@
 import Foundation
 
 struct User: Identifiable, Hashable {
-    let id: UUID
     let name: String
     let birthDay: Date?
+    
+    var id: String { name }
 
     init(name: String, birthDay: Date? = nil) {
-        self.id = UUID()
         self.name = name
         self.birthDay = birthDay
     }
@@ -21,6 +21,7 @@ extension User {
     static let bot = User(name: "Bot")
     
     static let friends = [junhyuk, hyeonji, jongyoun, wonseob]
+    static let allUsers = [me] + friends + [bot]
     
     static func dateFromString(_ dateString: String) -> Date? {
         let formatter = DateFormatter()

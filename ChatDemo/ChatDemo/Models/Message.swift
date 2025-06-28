@@ -1,32 +1,36 @@
 import Foundation
 
-enum MessageType {
-    case text(String)
-    case sticker(Sticker)
+protocol Message: Identifiable {
+    var id: UUID { get }
+    var sender: User { get }
+    var date: Date { get }
 }
 
-struct Message: Identifiable {
-    let id = UUID()
+struct TextMessage: Message {
+    let id: UUID
     let sender: User
-    let type: MessageType
+    let text: String
     let date: Date
     
-    var text: String {
-        switch type {
-        case .text(let text): return text
-        case .sticker(let sticker): return "Sticker"
-        }
-    }
-    
-    init(sender: User, text: String, date: Date = Date()) {
+    init(id: UUID = UUID(), sender: User, text: String, date: Date = Date()) {
+        self.id = id
         self.sender = sender
-        self.type = .text(text)
-        self.date = date
-    }
-    
-    init(sender: User, sticker: Sticker, date: Date = Date()) {
-        self.sender = sender
-        self.type = .sticker(sticker)
+        self.text = text
         self.date = date
     }
 }
+
+struct StickerMessage: Message {
+    let id: UUID
+    let sender: User
+    let sticker: Sticker
+    let date: Date
+    
+    init(id: UUID = UUID(), sender: User, sticker: Sticker, date: Date = Date()) {
+        self.id = id
+        self.sender = sender
+        self.sticker = sticker
+        self.date = date
+    }
+}
+
