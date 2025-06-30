@@ -10,4 +10,8 @@ enum Sticker: String, CaseIterable {
     var image: Image {
         Image(systemName: "star.fill")
     }
+    
+    var description: String {
+        rawValue
+    }
 }

@@ -93,10 +93,10 @@ class ChatStoreManager {
     private func makeInitialDummyRooms() -> [ChatRoom] {
         let date = Date()
         return [
-            ChatRoom(name: "Chat Bot", participants: [], messages: []),
+            ChatRoom(name: "Chat Bot", participants: [User.bot, User.me], messages: []),
             ChatRoom(
                 name: "스티커",
-                participants: [],
+                participants: [User.me] + User.friends,
                 messages: [
                     TextMessage(sender: .me, text: "I think today’s meeting went pretty smoothly.", date: date),
                     TextMessage(sender: .junhyuk, text: "Yeah, we actually wrapped up on time for once.", date: date.addingTimeInterval(1)),

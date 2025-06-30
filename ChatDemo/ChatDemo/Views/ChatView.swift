@@ -149,7 +149,25 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
 
     @ViewBuilder
     private var analysisSheet: some View {
-        Text("Empty")
+        VStack(spacing: 16) {
+            Text("Choose Analysis")
+                .font(.headline)
+            Button("Make Report") {
+                showAnalysisOptions = false
+                viewModel.makeReport()
+            }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color.blue.opacity(0.1))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+
+            Button("Cancel") {
+                showAnalysisOptions = false
+            }
+            .foregroundColor(.red)
+        }
+        .padding()
+        .presentationDetents([.height(400)])
     }
 }
 
