@@ -7,3 +7,10 @@ struct Report {
     @Guide(description: "Overall category for conversation")
     let category: ConversationCategory
 }
+
+
+struct MostUsedWord {
+    let word: String
+    
+    let frequency: Int
+}

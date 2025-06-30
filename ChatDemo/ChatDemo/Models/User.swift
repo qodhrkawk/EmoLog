@@ -22,14 +22,6 @@ extension User {
     
     static let friends = [junhyuk, hyeonji, jongyoun, wonseob]
     static let allUsers = [me] + friends + [bot]
-    
-    static func dateFromString(_ dateString: String) -> Date? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        formatter.locale = Locale(identifier: "en_US_POSIX") // 항상 고정된 포맷을 쓰고 싶을 때
-        formatter.timeZone = TimeZone(secondsFromGMT: 0) // 필요에 따라 조정
-
-        return formatter.date(from: dateString)
-    }
 }
+
 

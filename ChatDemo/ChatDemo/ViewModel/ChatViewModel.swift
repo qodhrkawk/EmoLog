@@ -70,34 +70,62 @@ class ChatViewModel: ObservableObject {
     }
     
     func makeReport() {
-        
+        makeReportPerDay()
+    }
+    
+    func makeReportPerDay() {
         Task {
-            do {
+            let calendar = Calendar.current
+            
+            // 1. 날짜별 메시지 분리
+            let groupedMessages = Dictionary(grouping: messages) { message in
+                calendar.startOfDay(for: message.date)
+            }
+            
+            var reports: [Date: Report] = [:]
+            
+            for (date, messagesForDay) in groupedMessages.sorted(by: { $0.key < $1.key }) {
+                let transcript = messagesForDay.compactMap { message in
+                    if let text = message as? TextMessage {
+                        return "[\(text.sender.name)]: \(text.text)"
+                    } else if let sticker = message as? StickerMessage {
+                        return "[\(sticker.sender.name)]: Sticker about \(sticker.sticker.description)"
+                    }
+                    return nil
+                }.joined(separator: "\n")
+                
+                guard !transcript.isEmpty else { continue }
+                
                 let instruction = """
                 Make a report by analyzing users' conversation.
-                
+
                 Each line represents a message and follows this format:
                 [UserName]: message
                 """
-                let session = LanguageModelSession(instructions: instruction)
-                guard let script = formattedTranscript() else { return }
                 
-                let response = try await session.respond(generating: Report.self) {
-                """
-                Make report from chat history: 
-                \(script)
-                """
+                do {
+                    let session = LanguageModelSession(instructions: instruction)
+                    let response = try await session.respond(generating: Report.self) {
+                    """
+                    Make report from chat history:
+                    \(transcript)
+                    """
+                    }
+                    
+                    await MainActor.run {
+                        reports[date] = response.content
+                    }
+                } catch {
+                    print("⚠️ Failed to create report for \(date): \(error)")
                 }
-                
-                print("YJKIM report: \(response.content)")
-
             }
-            catch {
-                print("YJKIM Error: \(error)")
-            }
+            
+            print("YJKIM Reports: \(reports)")
+            
+//            await MainActor.run {
+//                self.dailyReports = reports
+//            }
         }
-        
-        
     }
     
     private func formattedTranscript() -> String? {

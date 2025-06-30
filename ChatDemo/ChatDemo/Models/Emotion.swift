@@ -19,17 +19,17 @@ struct UserEmotion {
 
 @Generable(description: "Emotion with scores. The sum of all values should be 100.")
 struct EmotionWithScore {
-    @Guide(description: "The score for happy", .range(0...100))
+    @Guide(description: "The score for happy", .range(10...100))
     let happy: Int
-    @Guide(description: "The score for sad", .range(0...100))
+    @Guide(description: "The score for sad", .range(10...100))
     let sad: Int
-    @Guide(description: "The score for angry", .range(0...100))
+    @Guide(description: "The score for angry", .range(10...100))
     let angry: Int
-    @Guide(description: "The score for fear", .range(0...100))
+    @Guide(description: "The score for fear", .range(10...100))
     let fear: Int
-    @Guide(description: "The score for surprise", .range(0...100))
+    @Guide(description: "The score for surprise", .range(10...100))
     let surprise: Int
-    @Guide(description: "The score for love", .range(0...100))
+    @Guide(description: "The score for love", .range(10...100))
     let love: Int
 }
 
