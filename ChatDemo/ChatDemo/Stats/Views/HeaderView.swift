@@ -1,4 +1,4 @@
-import SwiftUI
+internal import SwiftUI
 import Charts
 
 struct HeaderView: View {
@@ -6,13 +6,9 @@ struct HeaderView: View {
 
     var body: some View {
         VStack(spacing: 10) {
-            Text("리포트")
-                .font(.title)
-                .fontWeight(.bold)
-            Spacer()
-
             Text("\(headerData.name)님의 감정 분석 리포트")
-                .font(.headline)
+                .font(.title3)
+                .fontWeight(.bold)
 
             Text("\(headerData.formattedDateString) 기준")
                 .font(.footnote)
@@ -28,16 +24,29 @@ struct HeaderView: View {
                     LinearGradient(
                         gradient: Gradient(
                             colors: [
-                                Color.purple.opacity(0.1),
-                                Color.pink.opacity(0.1)
+                                Color(red: 99/255, green: 102/255, blue: 241/255).opacity(0.1),
+                                Color(red: 244/255, green: 114/255, blue: 182/255).opacity(0.1)
                             ]
                         ),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
+                        startPoint: .leading,
+                        endPoint: .trailing
                     )
                 )
-                .cornerRadius(10)
+                .cornerRadius(16)
         }
         .padding()
     }
+}
+
+struct HeaderView_Previews: PreviewProvider {
+    static var previews: some View {
+        let headerData = HeaderData(
+            name: "홍길동",
+            formattedDateString: "2023년 10월 1일",
+        )
+        ScrollView {
+            HeaderView(headerData: headerData)
+        }
+    }
+
 }

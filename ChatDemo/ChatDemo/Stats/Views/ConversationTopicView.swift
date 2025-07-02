@@ -1,50 +1,65 @@
-import SwiftUI
+internal import SwiftUI
 
 struct ConversationTopicView: View {
     let topicDatas: [TopicData]
 
     var body: some View {
-        return VStack(alignment: .leading) {
+        VStack(alignment: .leading) {
             Text("대화 주제")
-                .font(.headline)
-                .padding()
+                .modifier(TitleViewModifier())
 
-            LazyVGrid(
-                columns: [
-                    GridItem(.flexible()),
-                    GridItem(.flexible())
-                ],
-                spacing: 20
-            ) {
-                ForEach(topicDatas, id: \.title) { topic in
-                    VStack {
+            let columns = [
+                GridItem(.flexible(), spacing: 0),
+                GridItem(.flexible())
+            ]
+
+            LazyVGrid(columns: columns, spacing: 16) {
+                ForEach(topicDatas, id: \.category) { topic in
+                    VStack(alignment: .leading, spacing: 12) {
                         Image(systemName: topic.imageName)
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 60, height: 30)
-                            .padding()
+                            .frame(width: 60, height: 60)
+                            .foregroundColor(.black)
                             .background(Color.white)
-                            .cornerRadius(10)
+                            .cornerRadius(16)
 
-
-                        VStack {
-                            Text(topic.title)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(topic.category.rawValue)
                                 .font(.headline)
-
+                                .font(.system(size: 14))
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             Text("\(topic.percentage)%")
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         }
-                        .padding(EdgeInsets(top: 12, leading: 0, bottom: 0, trailing: 0))
                     }
-                    .padding()
-                    .background(topic.color.opacity(0.08))
-                    .cornerRadius(15)
+                    .padding(16)
+//                    .frame(maxWidth: .infinity)
+                    .frame(width: 140, height: 140)
+                    .background(topic.category.color())
+                    .clipShape(
+                        RoundedRectangle(cornerRadius: 16)
+                    )
                 }
             }
-            .padding()
         }
         .modifier(CardViewModifier())
     }
 }
 
+struct ConversationTopicView_Previews: PreviewProvider {
+    static var previews: some View {
+        let topicDatas = [
+            TopicData(category: .employment, percentage: 32, imageName: "imagename"),
+            TopicData(category: .event, percentage: 32, imageName: "imagename"),
+            TopicData(category: .food, percentage: 32, imageName: "imagename"),
+            TopicData(category: .health, percentage: 32, imageName: "imagename"),
+            TopicData(category: .love, percentage: 32, imageName: "imagename"),
+            TopicData(category: .daily, percentage: 32, imageName: "imagename")
+        ]
+        ScrollView {
+            ConversationTopicView(topicDatas: topicDatas)
+        }
+    }
+}

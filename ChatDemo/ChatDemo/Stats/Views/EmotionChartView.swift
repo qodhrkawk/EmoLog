@@ -1,4 +1,4 @@
-import SwiftUI
+internal import SwiftUI
 import Charts
 
 struct EmotionChartView: View {
@@ -7,9 +7,18 @@ struct EmotionChartView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(title)
-                .font(.headline)
-                .padding()
+            HStack(spacing: 5) {
+                Image("profile")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 40, height: 40)
+                    .background(Color.pink)
+                    .clipShape(Circle())
+                Text(title)
+                    .modifier(TitleViewModifier())
+            }
+            .padding(.bottom)
+
             Chart {
                 ForEach(emotionDatas, id: \.id) { emotion in
                     BarMark(
@@ -24,16 +33,39 @@ struct EmotionChartView: View {
                 }
             }
             .chartForegroundStyleScale([
-                Emotion.joy.rawValue: .yellow,
-                Emotion.sadness.rawValue: .blue,
-                Emotion.anger.rawValue: .red,
+                Emotion.happy.rawValue: .yellow,
+                Emotion.sad.rawValue: .blue,
+                Emotion.angry.rawValue: .red,
                 Emotion.fear.rawValue: .purple,
                 Emotion.surprise.rawValue: .orange,
                 Emotion.love.rawValue: .pink
             ])
             .frame(height: 230)
             .padding(.horizontal)
+            .padding(.bottom)
+            .padding()
         }
         .modifier(CardViewModifier())
     }
+}
+
+struct EmotionChartView_Previews: PreviewProvider {
+    static var previews: some View {
+        let emotionDatas = [
+            EmotionData(dateString: "6/18", percentage: 70, emotion: .happy),
+            EmotionData(dateString: "6/18", percentage: 30, emotion: .sad),
+            EmotionData(dateString: "6/19", percentage: 75, emotion: .angry),
+            EmotionData(dateString: "6/20", percentage: 60, emotion: .fear),
+            EmotionData(dateString: "6/20", percentage: 20, emotion: .love),
+            EmotionData(dateString: "6/21", percentage: 85, emotion: .surprise),
+            EmotionData(dateString: "6/21", percentage: 15, emotion: .love),
+            EmotionData(dateString: "6/22", percentage: 90, emotion: .angry),
+            EmotionData(dateString: "6/23", percentage: 75, emotion: .happy),
+            EmotionData(dateString: "6/24", percentage: 80, emotion: .happy)
+        ]
+        ScrollView {
+            EmotionChartView(title: "나의 감정변화", emotionDatas: emotionDatas)
+        }
+    }
+
 }

@@ -1,4 +1,4 @@
-import SwiftUI
+internal import SwiftUI
 
 struct EmotionData {
     let id = UUID()
@@ -7,16 +7,14 @@ struct EmotionData {
     let emotion: Emotion
 }
 
-enum Emotion: String {
-    case joy, sadness, anger, fear, surprise, love
-
+extension Emotion {
     func color() -> Color {
         switch self {
-        case .joy:
+        case .happy:
             return .yellow
-        case .sadness:
+        case .sad:
             return .blue
-        case .anger:
+        case .angry:
             return .red
         case .fear:
             return .purple
