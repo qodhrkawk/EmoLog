@@ -103,18 +103,18 @@ class ChatStoreManager {
             TextMessage(sender: .wonseob, text: "What’s the plan? Beach? Hiking?", date: baseDate.addingTimeInterval(300)),
             TextMessage(sender: .me, text: "A bit of everything. And of course, black pork BBQ.", date: baseDate.addingTimeInterval(360)),
             TextMessage(sender: .junhyuk, text: "We should rent scooters again like last time.", date: baseDate.addingTimeInterval(420)),
-            StickerMessage(sender: .me, sticker: .happy, date: baseDate.addingTimeInterval(480)),
+            StickerMessage(sender: .me, sticker: .joy, date: baseDate.addingTimeInterval(480)),
             TextMessage(sender: .hyeonji, text: "Can we stay near the ocean? I want to hear the waves at night.", date: baseDate.addingTimeInterval(540)),
             TextMessage(sender: .wonseob, text: "I’ll find us an Airbnb. Leave it to me.", date: baseDate.addingTimeInterval(600)),
             TextMessage(sender: .jongyoun, text: "No haunted houses this time, please.", date: baseDate.addingTimeInterval(660)),
             TextMessage(sender: .me, text: "Haha, yeah last time was wild.", date: baseDate.addingTimeInterval(720)),
-            StickerMessage(sender: .junhyuk, sticker: .surprised, date: baseDate.addingTimeInterval(780)),
+            StickerMessage(sender: .junhyuk, sticker: .amazing, date: baseDate.addingTimeInterval(780)),
             TextMessage(sender: .me, text: "Flights are 69,000 won round trip. Should I book?", date: baseDate.addingTimeInterval(840)),
             TextMessage(sender: .hyeonji, text: "Do it!!", date: baseDate.addingTimeInterval(900)),
             TextMessage(sender: .wonseob, text: "Done. I’ll start a group itinerary.", date: baseDate.addingTimeInterval(960)),
             TextMessage(sender: .me, text: "This is going to be the best trip of the year.", date: baseDate.addingTimeInterval(1020)),
             TextMessage(sender: .jongyoun, text: "Let's bring board games this time too.", date: baseDate.addingTimeInterval(1080)),
-            StickerMessage(sender: .hyeonji, sticker: .happy, date: baseDate.addingTimeInterval(1140)),
+            StickerMessage(sender: .hyeonji, sticker: .joy, date: baseDate.addingTimeInterval(1140)),
             TextMessage(sender: .junhyuk, text: "I can already feel the breeze!", date: baseDate.addingTimeInterval(1200)),
             TextMessage(sender: .me, text: "Summer, here we come!", date: baseDate.addingTimeInterval(1260)),
         ]
@@ -154,14 +154,14 @@ class ChatStoreManager {
             TextMessage(sender: .junhyuk, text: "Wait, who??", date: baseDate3.addingTimeInterval(120)),
             TextMessage(sender: .me, text: "That person I met at the cafe last week.", date: baseDate3.addingTimeInterval(180)),
             TextMessage(sender: .wonseob, text: "The barista one?!", date: baseDate3.addingTimeInterval(240)),
-            StickerMessage(sender: .hyeonji, sticker: .surprised, date: baseDate3.addingTimeInterval(300)),
+            StickerMessage(sender: .hyeonji, sticker: .amazing, date: baseDate3.addingTimeInterval(300)),
             TextMessage(sender: .me, text: "Yup. We grabbed dinner and talked for 3 hours.", date: baseDate3.addingTimeInterval(360)),
             TextMessage(sender: .jongyoun, text: "That sounds like a movie scene.", date: baseDate3.addingTimeInterval(420)),
             TextMessage(sender: .hyeonji, text: "I’m literally squealing. Was there a spark?", date: baseDate3.addingTimeInterval(480)),
             TextMessage(sender: .me, text: "There was… something. Butterflies for sure.", date: baseDate3.addingTimeInterval(540)),
             TextMessage(sender: .junhyuk, text: "I demand to see a photo.", date: baseDate3.addingTimeInterval(600)),
             TextMessage(sender: .me, text: "Maybe later. But they're super kind. Easy to talk to.", date: baseDate3.addingTimeInterval(660)),
-            StickerMessage(sender: .wonseob, sticker: .happy, date: baseDate3.addingTimeInterval(720)),
+            StickerMessage(sender: .wonseob, sticker: .joy, date: baseDate3.addingTimeInterval(720)),
             TextMessage(sender: .jongyoun, text: "You deserve this. Seriously.", date: baseDate3.addingTimeInterval(780)),
             TextMessage(sender: .me, text: "Thank you. I’ve been smiling all day.", date: baseDate3.addingTimeInterval(840)),
             TextMessage(sender: .hyeonji, text: "Manifesting a second date. WHEN?", date: baseDate3.addingTimeInterval(900)),
@@ -195,7 +195,7 @@ class ChatStoreManager {
             TextMessage(sender: .jongyoun, text: "I’m in. But coffee doesn’t count, right?", date: baseDate4.addingTimeInterval(1020)),
             TextMessage(sender: .me, text: "Of course not. That’s essential.", date: baseDate4.addingTimeInterval(1080)),
             TextMessage(sender: .wonseob, text: "We can’t be broke *and* caffeine-deprived.", date: baseDate4.addingTimeInterval(1140)),
-            StickerMessage(sender: .me, sticker: .happy, date: baseDate4.addingTimeInterval(1200))
+            StickerMessage(sender: .me, sticker: .joy, date: baseDate4.addingTimeInterval(1200))
         ]
         
         let baseDate5 = dateFromString("2025-06-23")!
@@ -208,7 +208,7 @@ class ChatStoreManager {
             TextMessage(sender: .me, text: "Kale, banana, almond milk. I'm serious this time.", date: baseDate5.addingTimeInterval(240)),
             TextMessage(sender: .wonseob, text: "Respect. I had ramyeon for breakfast.", date: baseDate5.addingTimeInterval(300)),
             TextMessage(sender: .jongyoun, text: "Classic. Add an egg and it's a balanced meal.", date: baseDate5.addingTimeInterval(360)),
-            StickerMessage(sender: .me, sticker: .surprised, date: baseDate5.addingTimeInterval(420)),
+            StickerMessage(sender: .me, sticker: .amazing, date: baseDate5.addingTimeInterval(420)),
             TextMessage(sender: .hyeonji, text: "I’ve been meal prepping these days. Feels good to eat proper food.", date: baseDate5.addingTimeInterval(480)),
             TextMessage(sender: .me, text: "Can you share your recipes? I’m out of ideas already.", date: baseDate5.addingTimeInterval(540)),
             TextMessage(sender: .hyeonji, text: "Sure! Sweet potato + chicken + greens is my go-to.", date: baseDate5.addingTimeInterval(600)),
@@ -220,7 +220,7 @@ class ChatStoreManager {
             TextMessage(sender: .hyeonji, text: "Let’s share meal pics in here too. For accountability.", date: baseDate5.addingTimeInterval(960)),
             TextMessage(sender: .junhyuk, text: "Then I’m skipping meals so I don’t have to post.", date: baseDate5.addingTimeInterval(1020)),
             TextMessage(sender: .me, text: "That’s not how this works!", date: baseDate5.addingTimeInterval(1080)),
-            StickerMessage(sender: .wonseob, sticker: .happy, date: baseDate5.addingTimeInterval(1140))
+            StickerMessage(sender: .wonseob, sticker: .joy, date: baseDate5.addingTimeInterval(1140))
         ]
         
         let baseDate6 = dateFromString("2025-06-24")!
@@ -231,7 +231,7 @@ class ChatStoreManager {
             TextMessage(sender: .hyeonji, text: "Let’s plan a trip for real. We’ve been talking about it for months.", date: baseDate6.addingTimeInterval(120)),
             TextMessage(sender: .wonseob, text: "Can we go somewhere with both mountains and a beach?", date: baseDate6.addingTimeInterval(180)),
             TextMessage(sender: .junhyuk, text: "That sounds like a budget-destroyer.", date: baseDate6.addingTimeInterval(240)),
-            StickerMessage(sender: .me, sticker: .happy, date: baseDate6.addingTimeInterval(300)),
+            StickerMessage(sender: .me, sticker: .joy, date: baseDate6.addingTimeInterval(300)),
             TextMessage(sender: .me, text: "Let’s make a group plan. I can do the logistics.", date: baseDate6.addingTimeInterval(360)),
             TextMessage(sender: .jongyoun, text: "I’m in. I need a break from work anyway.", date: baseDate6.addingTimeInterval(420)),
             TextMessage(sender: .hyeonji, text: "Same. Somewhere not too hot though.", date: baseDate6.addingTimeInterval(480)),
@@ -245,7 +245,7 @@ class ChatStoreManager {
             TextMessage(sender: .junhyuk, text: "We should start packing already at this point.", date: baseDate6.addingTimeInterval(960)),
             TextMessage(sender: .me, text: "I’ll make a checklist and share it here.", date: baseDate6.addingTimeInterval(1020)),
             TextMessage(sender: .hyeonji, text: "Should we do a vote for the exact dates?", date: baseDate6.addingTimeInterval(1080)),
-            StickerMessage(sender: .wonseob, sticker: .surprised, date: baseDate6.addingTimeInterval(1140))
+            StickerMessage(sender: .wonseob, sticker: .amazing, date: baseDate6.addingTimeInterval(1140))
         ]
 
         let baseDate7 = dateFromString("2025-06-25")!
@@ -278,12 +278,14 @@ class ChatStoreManager {
 
         
         return [
-            ChatRoom(name: "Chat Bot", participants: [User.bot, User.me], messages: []),
+            ChatRoom(name: "Chat Bot", participants: [User.bot, User.me], messages: [], chatType: .bot),
             ChatRoom(
                 name: "친구들",
                 participants: [User.me] + User.friends,
-                messages: day1Messages + day2Messages + day3Messages + day4Messages + day5Messages + day6Messages + day7Messages
-            )
+                messages: day1Messages + day2Messages + day3Messages + day4Messages + day5Messages + day6Messages + day7Messages,
+                chatType: .friend
+            ),
+            ChatRoom(name: "소개팅", participants: [User.me, User.cony], messages: blindDateMessages(), chatType: .blindDate)
         ]
     }
 
@@ -396,3 +398,106 @@ func dateFromString(_ dateString: String) -> Date? {
     return formatter.date(from: dateString)
 }
 
+func blindDateMessages() -> [any Message] {
+    let baseDateDay1 = dateFromString("2025-06-25")!
+
+    let firstDateConversation: [any Message] = [
+        TextMessage(sender: .me, text: "Hey Cony! It's nice to finally meet you.", date: baseDateDay1),
+        TextMessage(sender: .cony, text: "Hi! Yeah, I've been looking forward to this.", date: baseDateDay1.addingTimeInterval(60)),
+        TextMessage(sender: .me, text: "Same here. So, tell me a bit about yourself.", date: baseDateDay1.addingTimeInterval(120)),
+        TextMessage(sender: .cony, text: "Well, I love hiking and exploring new places. How about you?", date: baseDateDay1.addingTimeInterval(180)),
+        TextMessage(sender: .me, text: "I'm into photography, always looking for new spots to capture.", date: baseDateDay1.addingTimeInterval(240)),
+        TextMessage(sender: .cony, text: "That's awesome! Maybe we can go hiking together sometime.", date: baseDateDay1.addingTimeInterval(300)),
+        StickerMessage(sender: .me, sticker: .joy, date: baseDateDay1.addingTimeInterval(360)),
+        TextMessage(sender: .me, text: "I'd love that. Do you have any favorite trails?", date: baseDateDay1.addingTimeInterval(420)),
+        TextMessage(sender: .cony, text: "There's a beautiful one near the lake. It's peaceful and has great views.", date: baseDateDay1.addingTimeInterval(480)),
+        TextMessage(sender: .me, text: "Sounds perfect. Let's plan for it soon.", date: baseDateDay1.addingTimeInterval(540)),
+        TextMessage(sender: .cony, text: "Definitely! I'm glad we're doing this.", date: baseDateDay1.addingTimeInterval(600)),
+        TextMessage(sender: .me, text: "Me too. Here's to new adventures!", date: baseDateDay1.addingTimeInterval(660)),
+        StickerMessage(sender: .cony, sticker: .love, date: baseDateDay1.addingTimeInterval(720))
+    ]
+
+    // Day 2 Conversation - 일요일에 만나자고 약속잡기
+    let baseDateDay2 = dateFromString("2025-06-26")!
+
+    let secondDateConversation: [any Message] = [
+        TextMessage(sender: .me, text: "Hey Cony, how's your day going?", date: baseDateDay2),
+        TextMessage(sender: .cony, text: "Hi! It's going well, just finished a meeting. You?", date: baseDateDay2.addingTimeInterval(60)),
+        TextMessage(sender: .me, text: "Pretty good, just wrapping up some work. Want to meet up this Sunday?", date: baseDateDay2.addingTimeInterval(120)),
+        TextMessage(sender: .cony, text: "Sure! What do you have in mind?", date: baseDateDay2.addingTimeInterval(180)),
+        TextMessage(sender: .me, text: "How about a hike and then lunch?", date: baseDateDay2.addingTimeInterval(240)),
+        StickerMessage(sender: .cony, sticker: .joy, date: baseDateDay2.addingTimeInterval(300)),
+        TextMessage(sender: .cony, text: "Sounds perfect! What time?", date: baseDateDay2.addingTimeInterval(360)),
+        TextMessage(sender: .me, text: "Let's meet at 10 AM.", date: baseDateDay2.addingTimeInterval(420)),
+        TextMessage(sender: .cony, text: "Looking forward to it!", date: baseDateDay2.addingTimeInterval(480)),
+        StickerMessage(sender: .cony, sticker: .love, date: baseDateDay2.addingTimeInterval(540))
+    ]
+
+    // Day 3 Conversation - 약속장소에 도착했다는 내용, 저녁엔 오늘 즐거웠다는 대화
+    let baseDateDay3 = dateFromString("2025-06-27")!
+
+    let thirdDateConversation: [any Message] = [
+        TextMessage(sender: .me, text: "Hey Cony, I just arrived at the meeting spot.", date: baseDateDay3),
+        TextMessage(sender: .cony, text: "Great! I'm almost there too.", date: baseDateDay3.addingTimeInterval(60)),
+        TextMessage(sender: .me, text: "No rush, see you soon!", date: baseDateDay3.addingTimeInterval(120)),
+        // Evening conversation
+        TextMessage(sender: .me, text: "Today was really fun, Cony.", date: baseDateDay3.addingTimeInterval(3600)),
+        TextMessage(sender: .cony, text: "I had a great time too! Thanks for suggesting this.", date: baseDateDay3.addingTimeInterval(3660)),
+        TextMessage(sender: .me, text: "Looking forward to our next adventure.", date: baseDateDay3.addingTimeInterval(3720)),
+        StickerMessage(sender: .cony, sticker: .love, date: baseDateDay3.addingTimeInterval(3780))
+    ]
+
+    // Day 4 Conversation - 일상공유
+    let baseDateDay4 = dateFromString("2025-06-28")!
+
+    let fourthDateConversation: [any Message] = [
+        TextMessage(sender: .me, text: "Good morning, Cony! How's your Monday?", date: baseDateDay4),
+        TextMessage(sender: .cony, text: "Morning! It's a bit hectic, but manageable. How about you?", date: baseDateDay4.addingTimeInterval(60)),
+        TextMessage(sender: .me, text: "Same here, just getting through the usual grind.", date: baseDateDay4.addingTimeInterval(120)),
+        TextMessage(sender: .cony, text: "Anything exciting planned for the week?", date: baseDateDay4.addingTimeInterval(180)),
+        TextMessage(sender: .me, text: "Not much, just the usual work stuff. You?", date: baseDateDay4.addingTimeInterval(240)),
+        TextMessage(sender: .cony, text: "Same here. Let's catch up again soon!", date: baseDateDay4.addingTimeInterval(300)),
+        StickerMessage(sender: .me, sticker: .joy, date: baseDateDay4.addingTimeInterval(360))
+    ]
+
+    // Day 5 Conversation - 저녁에 갑자기 만나서 가볍게 맥주마시자는 내용
+    let baseDateDay5 = dateFromString("2025-06-29")!
+
+    let fifthDateConversation: [any Message] = [
+        TextMessage(sender: .me, text: "Hey Cony, are you free tonight?", date: baseDateDay5),
+        TextMessage(sender: .cony, text: "Hi! I think I can be. What's up?", date: baseDateDay5.addingTimeInterval(60)),
+        TextMessage(sender: .me, text: "Want to grab a beer and catch up?", date: baseDateDay5.addingTimeInterval(120)),
+        TextMessage(sender: .cony, text: "That sounds great! What time?", date: baseDateDay5.addingTimeInterval(180)),
+        TextMessage(sender: .me, text: "How about 7 PM at our usual spot?", date: baseDateDay5.addingTimeInterval(240)),
+        TextMessage(sender: .cony, text: "Perfect, see you then!", date: baseDateDay5.addingTimeInterval(300)),
+        StickerMessage(sender: .cony, sticker: .amazing, date: baseDateDay5.addingTimeInterval(360))
+    ]
+
+    // Day 6 Conversation - 일상공유
+    let baseDateDay6 = dateFromString("2025-06-30")!
+
+    let sixthDateConversation: [any Message] = [
+        TextMessage(sender: .me, text: "Hey Cony, how's your Wednesday going?", date: baseDateDay6),
+        TextMessage(sender: .cony, text: "Hi! It's going well, just a bit busy. You?", date: baseDateDay6.addingTimeInterval(60)),
+        TextMessage(sender: .me, text: "Pretty much the same. Just trying to get through the week.", date: baseDateDay6.addingTimeInterval(120)),
+        TextMessage(sender: .cony, text: "Hang in there! The weekend is almost here.", date: baseDateDay6.addingTimeInterval(180)),
+        TextMessage(sender: .me, text: "True! Let's make it a good one.", date: baseDateDay6.addingTimeInterval(240)),
+        StickerMessage(sender: .cony, sticker: .love, date: baseDateDay6.addingTimeInterval(300))
+    ]
+
+    // Day 7 Conversation - 이번 주말에 또 만나자는 약속잡기
+    let baseDateDay7 = dateFromString("2025-07-01")!
+
+    let seventhDateConversation: [any Message] = [
+        TextMessage(sender: .me, text: "Hey Cony! Want to meet up again this weekend?", date: baseDateDay7),
+        TextMessage(sender: .cony, text: "Hi! I'd love to. What do you have in mind?", date: baseDateDay7.addingTimeInterval(60)),
+        TextMessage(sender: .me, text: "Maybe another hike or a picnic?", date: baseDateDay7.addingTimeInterval(120)),
+        TextMessage(sender: .cony, text: "Both sound great! Let's decide based on the weather.", date: baseDateDay7.addingTimeInterval(180)),
+        TextMessage(sender: .me, text: "Sounds good. I'll keep an eye on the forecast.", date: baseDateDay7.addingTimeInterval(240)),
+        TextMessage(sender: .cony, text: "Looking forward to it!", date: baseDateDay7.addingTimeInterval(300)),
+        StickerMessage(sender: .me, sticker: .joy, date: baseDateDay7.addingTimeInterval(360))
+    ]
+    
+    return firstDateConversation + secondDateConversation + thirdDateConversation + fourthDateConversation + fifthDateConversation + sixthDateConversation + seventhDateConversation
+
+}

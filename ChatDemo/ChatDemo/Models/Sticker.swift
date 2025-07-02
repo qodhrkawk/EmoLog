@@ -1,18 +1,17 @@
 import SwiftUI
 
 enum Sticker: String, CaseIterable {
-    case thumbsUp
-    case party
+    case amazing
     case angry
-    case crying
-    case laugh
+    case fear
+    case frustrated
+    case joy
     case love
-    case happy
-    case surprised
     case sad
+    case shock
 
     var image: Image {
-        Image(systemName: "star.fill")
+        Image(self.rawValue)
     }
     
     var description: String {

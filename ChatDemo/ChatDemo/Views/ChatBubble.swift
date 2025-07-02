@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ChatBubble: View {
-    let message: Message
+    let message: any Message
 
     var isSender: Bool {
         message.sender == User.me
@@ -25,9 +25,18 @@ struct ChatBubble: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(alignment: .top, spacing: 8) {
                         // 프로필
-                        Circle()
-                            .fill(profileColor(for: message.sender.name))
-                            .frame(width: 36, height: 36)
+                        if let imageName = message.sender.imageName {
+                            Image(imageName)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 36, height: 36)
+                                .clipShape(Circle())
+                        }
+                        else {
+                            Circle()
+                                .fill(profileColor(for: message.sender.name))
+                                .frame(width: 36, height: 36)
+                        }
 
                         VStack(alignment: .leading, spacing: 2) {
                             Text(message.sender.name)
@@ -65,7 +74,7 @@ struct ChatBubble: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 120, height: 120)
                 .padding(6)
-                .background(Color.white.opacity(0.8))
+                .background(Color.clear)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
         }
     }

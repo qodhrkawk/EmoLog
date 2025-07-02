@@ -3,12 +3,15 @@ import Foundation
 struct User: Identifiable, Hashable {
     let name: String
     let birthDay: Date?
-    
-    var id: String { name }
+    let imageName: String?
 
-    init(name: String, birthDay: Date? = nil) {
+    var id: String { name }
+    
+
+    init(name: String, birthDay: Date? = nil, imageName: String? = nil) {
         self.name = name
         self.birthDay = birthDay
+        self.imageName = imageName
     }
 }
 
@@ -20,7 +23,9 @@ extension User {
     static let wonseob = User(name: "Wonseob", birthDay: dateFromString("1991-01-15"))
     static let bot = User(name: "Bot")
     
-    static let friends = [junhyuk, hyeonji, jongyoun, wonseob]
+    static let cony = User(name: "Cony", imageName: "cony_profile")
+    
+    static let friends = [junhyuk, hyeonji, jongyoun, wonseob, cony]
     static let allUsers = [me] + friends + [bot]
 }
 

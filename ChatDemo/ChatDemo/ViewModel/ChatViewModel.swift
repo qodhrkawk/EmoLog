@@ -10,24 +10,16 @@ class ChatViewModel: ObservableObject {
     private let store: ChatStoreManager
     private let chatRoom: ChatRoom
     private let session: LanguageModelSession
+    
+    private var is1on1: Bool {
+        chatRoom.participants.count == 2
+    }
 
     init(store: ChatStoreManager, chatRoom: ChatRoom) {
         self.store = store
         self.chatRoom = chatRoom
         self.messages = store.fetchMessages(for: chatRoom)
-        if chatRoom.participants == [User.bot, User.me] {
-            session = LanguageModelSession(
-                instructions:
-                """
-                You are a chat bot in chat app.
-                Based on given tools, you need to provide proper information for user.
-                Use tools as much as possible.
-                """
-            )
-        }
-        else {
-            session = LanguageModelSession()
-        }
+        session = LanguageModelSession(instructions: chatRoom.chatType.instruction)
     }
 
     func prewarm() {
@@ -42,28 +34,30 @@ class ChatViewModel: ObservableObject {
         store.addMessage(userMessage, to: chatRoom)
 
         inputText = ""
-        sendBotMessage(request: userMessage.text)
+        replyToMessage(request: userMessage.text)
     }
     
-    private func sendBotMessage(request: String) {
+    private func replyToMessage(request: String) {
         Task {
             do {
-                let botMessage = TextMessage(sender: User.bot, text: "")
-                messages.append(botMessage)
-                let botMessageIndex = messages.count - 1
+                guard let replier = chatRoom.participants.first(where: { $0 != User.me }) else { return }
+                let replyMessage = TextMessage(sender: replier, text: "")
+                messages.append(replyMessage)
+                let replyMessageIndex = messages.count - 1
 
                 // 2. Stream 시작
                 let stream = session.streamResponse(to: request)
                 for try await partial in stream {
                     // 3. partial은 누적된 값이므로 바로 반영 가능
                     await MainActor.run {
-                        messages[botMessageIndex] = TextMessage(sender: User.bot, text: partial)
+                        messages[replyMessageIndex] = TextMessage(sender: replier, text: partial)
                     }
                 }
-                store.addMessage(messages[botMessageIndex], to: chatRoom)
+                store.addMessage(messages[replyMessageIndex], to: chatRoom)
             }
             catch {
                 let newMessage = TextMessage(sender: User.bot, text: error.localizedDescription)
+                // TODO: 삭제
                 messages.append(newMessage)
             }
         }
@@ -71,6 +65,12 @@ class ChatViewModel: ObservableObject {
     
     func makeReport() {
         makeReportPerDay()
+    }
+    
+    func sendSticker(_ sticker: Sticker) {
+        let userMessage = StickerMessage(sender: User.me, sticker: sticker)
+        messages.append(userMessage)
+        store.addMessage(userMessage, to: chatRoom)
     }
     
     func makeReportPerDay() {
@@ -96,15 +96,18 @@ class ChatViewModel: ObservableObject {
                 
                 guard !transcript.isEmpty else { continue }
                 
-                let instruction = """
-                Make a report by analyzing users' conversation.
-
-                Each line represents a message and follows this format:
-                [UserName]: message
-                """
-                
                 do {
+                    let instruction = """
+                    Make a report by analyzing users' conversation.
+
+                    Each line represents a message and follows this format:
+                    [UserName]: message
+                    """
+                    
+                    print("YJKIM Transcript: \(transcript.count)")
+                    
                     let session = LanguageModelSession(instructions: instruction)
+                    
                     let response = try await session.respond(generating: Report.self) {
                     """
                     Make report from chat history:
@@ -112,15 +115,27 @@ class ChatViewModel: ObservableObject {
                     """
                     }
                     
-                    await MainActor.run {
-                        reports[date] = response.content
-                    }
-                } catch {
-                    print("⚠️ Failed to create report for \(date): \(error)")
+                    print("YJKIM Report for day: \(date) : \(response.content)")
+                    
+//                    await MainActor.run {
+//                        reports[date] = response.content
+//                    }
+                }
+                catch {
+                    print("YJKIM ⚠️ Failed to create report for \(date): \(error)")
                 }
             }
             
-            print("YJKIM Reports: \(reports)")
+
+            do {
+                let advice = try await session.respond(generating: ConversationAdvice.self) {
+                    """
+                    Give the adivce based on conversation before, for user `Me`.
+                    """
+                }
+                
+                print("YJKIM Advice: \(advice.content)")
+            }
             
 //            await MainActor.run {
 //                self.dailyReports = reports
