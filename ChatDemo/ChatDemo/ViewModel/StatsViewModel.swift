@@ -160,8 +160,7 @@ class StatsViewModel: ObservableObject {
     func topicData(from dailyReport: DailyReport) -> TopicData {
         TopicData(
             category: dailyReport.category.category,
-            percentage: dailyReport.category.confidence,
-            imageName: dailyReport.category.category.imageName
+            percentage: dailyReport.category.confidence
         )
     }
     

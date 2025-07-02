@@ -3,12 +3,13 @@ import Charts
 
 struct EmotionChartView: View {
     let title: String
+    let profileImageName: String
     let emotionDatas: [EmotionData]
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack(spacing: 5) {
-                Image("profile")
+                Image(profileImageName)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 40, height: 40)
@@ -66,8 +67,11 @@ struct EmotionChartView_Previews: PreviewProvider {
             EmotionData(dateString: "6/24", percentage: 80, emotion: .happy)
         ]
         ScrollView {
-            EmotionChartView(title: "나의 감정변화", emotionDatas: emotionDatas)
+            EmotionChartView(
+                title: "나의 감정변화",
+                profileImageName: "profileImageName",
+                emotionDatas: emotionDatas
+            )
         }
     }
-
 }

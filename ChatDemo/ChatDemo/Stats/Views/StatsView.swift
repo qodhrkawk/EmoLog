@@ -19,6 +19,7 @@ struct StatsView: View {
                     if let myEmotions = stats.myEmotionDatas, !myEmotions.isEmpty {
                         EmotionChartView(
                             title: "My emotional changes",
+                            profileImageName: "",
                             emotionDatas: myEmotions
                         )
                     }
@@ -26,6 +27,7 @@ struct StatsView: View {
                     if let friendEmotions = stats.friendEmotionDatas, !friendEmotions.isEmpty {
                         EmotionChartView(
                             title: "Friend's emotional changes",
+                            profileImageName: "",
                             emotionDatas: friendEmotions
                         )
                     }

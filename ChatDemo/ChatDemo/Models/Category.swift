@@ -26,6 +26,6 @@ enum Category: String {
 
 extension Category {
     var imageName: String {
-        rawValue
+        "category_\(rawValue)"
     }
 }

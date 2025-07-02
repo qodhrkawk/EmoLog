@@ -3,8 +3,6 @@ internal import SwiftUI
 struct TopicData {
     let category: Category
     let percentage: Int
-    let imageName: String
-//    let color: Color
 }
 
 extension Category {

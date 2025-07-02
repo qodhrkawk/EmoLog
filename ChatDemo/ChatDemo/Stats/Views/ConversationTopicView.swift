@@ -16,7 +16,7 @@ struct ConversationTopicView: View {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(topicDatas, id: \.category) { topic in
                     VStack(alignment: .leading, spacing: 12) {
-                        Image(systemName: topic.imageName)
+                        Image(topic.category.imageName)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 60, height: 60)
@@ -48,12 +48,12 @@ struct ConversationTopicView: View {
 struct ConversationTopicView_Previews: PreviewProvider {
     static var previews: some View {
         let topicDatas = [
-            TopicData(category: .employment, percentage: 32, imageName: "imagename"),
-            TopicData(category: .event, percentage: 32, imageName: "imagename"),
-            TopicData(category: .food, percentage: 32, imageName: "imagename"),
-            TopicData(category: .health, percentage: 32, imageName: "imagename"),
-            TopicData(category: .love, percentage: 32, imageName: "imagename"),
-            TopicData(category: .daily, percentage: 32, imageName: "imagename")
+            TopicData(category: .employment, percentage: 32),
+            TopicData(category: .event, percentage: 32),
+            TopicData(category: .food, percentage: 32),
+            TopicData(category: .health, percentage: 32),
+            TopicData(category: .love, percentage: 32),
+            TopicData(category: .daily, percentage: 32)
         ]
         ScrollView {
             ConversationTopicView(topicDatas: topicDatas)
