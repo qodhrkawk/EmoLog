@@ -5,11 +5,11 @@ struct ConversationTopicView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("대화 주제")
+            Text("Topics")
                 .modifier(TitleViewModifier())
 
             let columns = [
-                GridItem(.flexible(), spacing: 0),
+                GridItem(.flexible(), spacing: -5),
                 GridItem(.flexible())
             ]
 
@@ -26,7 +26,6 @@ struct ConversationTopicView: View {
 
                         VStack(alignment: .leading, spacing: 4) {
                             Text(topic.category.rawValue)
-                                .font(.headline)
                                 .font(.system(size: 14))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             Text("\(topic.percentage)%")
@@ -35,7 +34,6 @@ struct ConversationTopicView: View {
                         }
                     }
                     .padding(16)
-//                    .frame(maxWidth: .infinity)
                     .frame(width: 140, height: 140)
                     .background(topic.category.color())
                     .clipShape(
@@ -43,6 +41,7 @@ struct ConversationTopicView: View {
                     )
                 }
             }
+            .padding(.vertical, 8)
         }
         .modifier(CardViewModifier())
     }

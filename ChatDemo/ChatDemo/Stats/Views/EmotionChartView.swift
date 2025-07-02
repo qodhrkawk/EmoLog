@@ -32,6 +32,8 @@ struct EmotionChartView: View {
                     }
                 }
             }
+            .animation(.easeIn, value: emotionDatas)
+            .chartYScale(domain: [0, 100])
             .chartForegroundStyleScale([
                 Emotion.happy.rawValue: .yellow,
                 Emotion.sad.rawValue: .blue,

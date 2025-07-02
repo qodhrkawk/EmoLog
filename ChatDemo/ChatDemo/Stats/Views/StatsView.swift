@@ -17,11 +17,11 @@ struct StatsView: View {
                 HeaderView(headerData: stats.headerData)
                 MostUsedDataView(mostUsedData: stats.mostUsedData)
                 EmotionChartView(
-                    title: "나의 감정변화",
+                    title: "My emotional changes",
                     emotionDatas: stats.emotionDatas
                 )
                 EmotionChartView(
-                    title: "친구의 감정변화",
+                    title: "Friend's emotional changes",
                     emotionDatas: stats.emotionDatas
                 )
                 ConversationTopicView(topicDatas: stats.topicDatas)

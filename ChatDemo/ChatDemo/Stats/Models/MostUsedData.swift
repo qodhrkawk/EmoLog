@@ -1,5 +1,7 @@
 struct MostUsedData {
     let word: String
-    let usedCount: Int
+    let wordEmotion: Emotion
+    let usedWordCount: Int
+    let stickerEmotion: Emotion
     let stickerImageName: String
 }

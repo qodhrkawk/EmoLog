@@ -5,7 +5,7 @@ struct ConversationTipView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("대화 조언")
+            Text("Advice")
                 .modifier(TitleViewModifier())
 
             tipView(
@@ -14,8 +14,8 @@ struct ConversationTipView: View {
                 icon: conversationTipData.icon,
                 color: Color(red: 99/255, green: 102/255, blue: 241/255, opacity: 0.05)
             )
+            .padding(.vertical, 8)
         }
-        .padding(.bottom)
         .modifier(CardViewModifier())
     }
 

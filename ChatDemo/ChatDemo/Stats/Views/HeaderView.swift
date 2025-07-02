@@ -6,19 +6,20 @@ struct HeaderView: View {
 
     var body: some View {
         VStack(spacing: 10) {
-            Text("\(headerData.name)님의 감정 분석 리포트")
+            Image("emolog_logo")
+            Text("\(headerData.name)'s emotion analysis report")
                 .font(.title3)
                 .fontWeight(.bold)
 
-            Text("\(headerData.formattedDateString) 기준")
+            Text("Based on \(headerData.formattedDateString)")
                 .font(.footnote)
             Spacer()
 
-            Text("당신의 메시지에서 발견된 감정 패턴을 분석했어요.")
-                .font(.subheadline)
+            Text("We analyzed the emotion patterns found in your messages.")
+                .font(.system(size: 14))
                 .padding()
                 .frame(
-                    width: UIScreen.main.bounds.width - 64, height: 60
+                    width: UIScreen.main.bounds.width - 64, height: 75
                 )
                 .background(
                     LinearGradient(
