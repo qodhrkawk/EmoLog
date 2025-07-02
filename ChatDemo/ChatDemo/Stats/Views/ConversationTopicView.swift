@@ -36,9 +36,7 @@ struct ConversationTopicView: View {
                     .padding(16)
                     .frame(width: 140, height: 140)
                     .background(topic.category.color())
-                    .clipShape(
-                        RoundedRectangle(cornerRadius: 16)
-                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
             }
             .padding(.vertical, 8)

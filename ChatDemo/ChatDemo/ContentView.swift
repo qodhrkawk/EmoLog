@@ -5,7 +5,7 @@
 //  Created by Yunjae Kim on 6/28/25.
 //
 
-import SwiftUI
+internal import SwiftUI
 
 struct ContentView: View {
     var body: some View {

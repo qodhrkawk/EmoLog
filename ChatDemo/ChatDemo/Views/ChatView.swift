@@ -1,15 +1,17 @@
-import SwiftUI
+internal import SwiftUI
 import Combine
 
-struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
-    @ObservedObject private var viewModel: ViewModel
+struct ChatView: View {
+    @ObservedObject private var viewModel: ChatViewModel
     @StateObject private var keyboard = KeyboardObserver()
     @FocusState private var isTextFieldFocused: Bool
     @State private var showSettings = false
     @State private var showAnalysisOptions = false
     @State private var isStickerPanelVisible = false
+    @State private var isMenuPanelVisible = false
+    @State private var showStatsView = false
 
-    init(viewModel: ViewModel) {
+    init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
     }
 
@@ -49,6 +51,7 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
                     .onTapGesture {
                         isStickerPanelVisible = false
                         isTextFieldFocused = false
+                        isMenuPanelVisible = false
                     }
                 }
                 .onChange(of: viewModel.messages.count) { _ in
@@ -74,6 +77,7 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
                 .onTapGesture {
                     isStickerPanelVisible = false
                     isTextFieldFocused = false
+                    isMenuPanelVisible = false
                 }
             }
             .background(Color.background)
@@ -82,7 +86,19 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
             
             HStack(spacing: 8) {
                 Button {
-                    showAnalysisOptions = true
+                    if isMenuPanelVisible == false {
+                        hideKeyboard()
+                        isStickerPanelVisible = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                            isMenuPanelVisible.toggle()
+                        }
+                    }
+                    else {
+                        isMenuPanelVisible.toggle()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                            isTextFieldFocused = true
+                        }
+                    }
                 } label: {
                     Image(systemName: "plus")
                         .font(.system(size: 20, weight: .medium))
@@ -97,6 +113,7 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
                     Button {
                         if isStickerPanelVisible == false {
                             hideKeyboard()
+                            isMenuPanelVisible = false
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                                 isStickerPanelVisible.toggle()
                             }
@@ -143,6 +160,11 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
                 })
                 .transition(.identity)
             }
+            if isMenuPanelVisible {
+                MenuPanelView(onReportTap: {
+                    showStatsView = true
+                })
+            }
         }
         .animation(nil, value: isStickerPanelVisible)
         .animation(nil, value: isTextFieldFocused)
@@ -155,6 +177,7 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
         }
         .onChange(of: isTextFieldFocused) {
             isStickerPanelVisible = false
+            isMenuPanelVisible = false
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -165,22 +188,15 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
                 }
             }
         }
+        .sheet(isPresented: $showStatsView) {
+            statsSheet
+        }
         .sheet(isPresented: $showSettings) {
             settingsSheet
         }
-        .sheet(isPresented: $showAnalysisOptions) {
-            analysisSheet
-        }
-    }
-
-    // MARK: - Helpers
-
-    private func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        formatter.locale = Locale(identifier: "en_US")
-        return formatter.string(from: date)
+//        .sheet(isPresented: $showAnalysisOptions) {
+//            analysisSheet
+//        }
     }
 
     private func groupedMessages() -> [(date: Date, messages: [any Message])] {
@@ -190,6 +206,12 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
         return grouped
             .map { ($0.key, $0.value) }
             .sorted { $0.0 < $1.0 }
+    }
+    
+    @ViewBuilder
+    private var statsSheet: some View {
+        let statsViewModel = StatsViewModel(chatRoom: viewModel.chatRoom)
+        StatsView(viewModel: statsViewModel)
     }
 
     @ViewBuilder
@@ -215,7 +237,7 @@ struct ChatView<ViewModel: ChatViewModel & ObservableObject>: View {
                 .font(.headline)
             Button("Make Report") {
                 showAnalysisOptions = false
-                viewModel.makeReport()
+                showStatsView = true
             }
             .padding()
             .frame(maxWidth: .infinity)
@@ -266,6 +288,59 @@ struct StickerPanelView: View {
     }
 }
 
+struct MenuPanelView: View {
+    let onReportTap: () -> Void
+
+    private let columns = Array(repeating: GridItem(.flexible(), spacing: 0, alignment: .top), count: 4)
+
+    var body: some View {
+        LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
+            Button(action: onReportTap) {
+                VStack(spacing: 6) {
+                    Image(systemName: "chart.bar.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 36, height: 36)
+                        .foregroundColor(.black)
+
+                    Text("리포트")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(.black)
+                }
+                .frame(width: 84, height: 84) // 정사각형
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+    }
+}
+
+//
+//struct MenuPanelView: View {
+//    let onReportTap: () -> Void
+//
+//    var body: some View {
+//        VStack(spacing: 8) {
+//            Button(action: onReportTap) {
+//                VStack(spacing: 6) {
+//                    Image(systemName: "chart.bar.fill")
+//                        .resizable()
+//                        .scaledToFit()
+//                        .frame(width: 36, height: 36)
+//                        .foregroundColor(.black)
+//
+//                    Text("리포트")
+//                        .font(.system(size: 12))
+//                        .foregroundColor(.black)
+//                }
+//                .padding()
+//                .background(Color.white)
+//                .clipShape(RoundedRectangle(cornerRadius: 16))
+//                .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+//            }
+//        }
+//    }
+//}
 extension View {
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)

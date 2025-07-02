@@ -24,3 +24,8 @@ enum Category: String {
     case daily
 }
 
+extension Category {
+    var imageName: String {
+        rawValue
+    }
+}

@@ -8,7 +8,7 @@ class ChatViewModel: ObservableObject {
     @Published var isStreamingEnabled: Bool = true
     
     private let store: ChatStoreManager
-    private let chatRoom: ChatRoom
+    let chatRoom: ChatRoom
     private let session: LanguageModelSession
     
     private var is1on1: Bool {
@@ -63,84 +63,10 @@ class ChatViewModel: ObservableObject {
         }
     }
     
-    func makeReport() {
-        makeReportPerDay()
-    }
-    
     func sendSticker(_ sticker: Sticker) {
         let userMessage = StickerMessage(sender: User.me, sticker: sticker)
         messages.append(userMessage)
         store.addMessage(userMessage, to: chatRoom)
-    }
-    
-    func makeReportPerDay() {
-        Task {
-            let calendar = Calendar.current
-            
-            // 1. 날짜별 메시지 분리
-            let groupedMessages = Dictionary(grouping: messages) { message in
-                calendar.startOfDay(for: message.date)
-            }
-            
-            var reports: [Date: Report] = [:]
-            
-            for (date, messagesForDay) in groupedMessages.sorted(by: { $0.key < $1.key }) {
-                let transcript = messagesForDay.compactMap { message in
-                    if let text = message as? TextMessage {
-                        return "[\(text.sender.name)]: \(text.text)"
-                    } else if let sticker = message as? StickerMessage {
-                        return "[\(sticker.sender.name)]: Sticker about \(sticker.sticker.description)"
-                    }
-                    return nil
-                }.joined(separator: "\n")
-                
-                guard !transcript.isEmpty else { continue }
-                
-                do {
-                    let instruction = """
-                    Make a report by analyzing users' conversation.
-
-                    Each line represents a message and follows this format:
-                    [UserName]: message
-                    """
-                    
-                    print("YJKIM Transcript: \(transcript.count)")
-                    
-                    let session = LanguageModelSession(instructions: instruction)
-                    
-                    let response = try await session.respond(generating: Report.self) {
-                    """
-                    Make report from chat history:
-                    \(transcript)
-                    """
-                    }
-                    
-                    print("YJKIM Report for day: \(date) : \(response.content)")
-                    
-//                    await MainActor.run {
-//                        reports[date] = response.content
-//                    }
-                }
-                catch {
-                    print("YJKIM ⚠️ Failed to create report for \(date): \(error)")
-                }
-            }
-            
-
-            do {
-                let advice = try await session.respond(generating: ConversationAdvice.self) {
-                    """
-                    Give the adivce based on conversation before, for user `Me`.
-                    """
-                }
-                
-                print("YJKIM Advice: \(advice.content)")
-            }
-            
-//            await MainActor.run {
-//                self.dailyReports = reports
-//            }
-        }
     }
     
     private func formattedTranscript() -> String? {

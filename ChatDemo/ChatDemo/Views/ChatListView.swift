@@ -1,6 +1,6 @@
 import Combine
 import Foundation
-import SwiftUI
+internal import SwiftUI
 import SwiftData
 
 struct ChatListView: View {

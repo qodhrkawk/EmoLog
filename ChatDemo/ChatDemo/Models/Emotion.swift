@@ -6,14 +6,14 @@ struct UserEmotion {
     let name: String
     
     @Guide(description: "EmotionWithConfidence value", .count(3))
-    let emotionWithScore: [EmotionWithScore]
+    let emotionWithScoreList: [EmotionWithScore]
 }
 
 @Generable(description: "Emotion with scores. The sum of all values should be 100.")
 struct EmotionWithScore {
     @Guide(description: "The emtion for user")
     let emotion: Emotion
-    @Guide(description: "The score for emotion", .range(0...100))
+    @Guide(description: "The score for emotion", .range(10...100))
     let score: Int
 }
 //
