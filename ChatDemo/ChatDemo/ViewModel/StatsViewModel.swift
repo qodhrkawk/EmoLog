@@ -30,7 +30,7 @@ class StatsViewModel: ObservableObject {
             
             self.stats = Stats(
                 headerData: HeaderData(
-                    name: "aa",
+                    name: User.myName,
                     formattedDateString: formattedDate(Date())
                 ),
                 mostUsedData: MostUsedData(

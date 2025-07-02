@@ -6,7 +6,6 @@ struct User: Identifiable, Hashable {
     let imageName: String?
 
     var id: String { name }
-    
 
     init(name: String, birthDay: Date? = nil, imageName: String? = nil) {
         self.name = name
@@ -22,6 +21,7 @@ extension User {
     static let jongyoun = User(name: "Jongyoun", birthDay: dateFromString("1989-03-12"))
     static let wonseob = User(name: "Wonseob", birthDay: dateFromString("1991-01-15"))
     static let bot = User(name: "Bot")
+    static let myName = "Brown"
     
     static let cony = User(name: "Cony", imageName: "cony_profile")
     
