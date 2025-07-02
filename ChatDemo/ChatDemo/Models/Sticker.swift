@@ -25,4 +25,10 @@ extension Sticker {
     var imageName: String {
         rawValue
     }
+    
+//    var emotion: Emotion {
+//        switch self {
+//            
+//        }
+//    }
 }

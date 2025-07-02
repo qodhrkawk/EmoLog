@@ -5,6 +5,9 @@ internal import SwiftUI
 class StatsViewModel: ObservableObject {
     @Published var stats: Stats?
     let chatRoom: ChatRoom
+    var partner: User? {
+        chatRoom.participants.first(where: { $0.name != User.me.name })
+    }
 
     init(chatRoom: ChatRoom) {
         self.chatRoom = chatRoom
@@ -238,18 +241,33 @@ struct Stats {
     }
     
     func addingTopicData(topicData: TopicData) -> Stats {
-        var topicDatas = topicDatas ?? []
-        topicDatas.append(topicData)
+        var updatedTopicDatas = topicDatas ?? []
+
+        // 기존에 같은 category가 있는지 확인
+        if let index = updatedTopicDatas.firstIndex(where: { $0.category == topicData.category }) {
+            // 이미 존재하면 더 높은 percentage일 때만 교체
+            if topicData.percentage > updatedTopicDatas[index].percentage {
+                updatedTopicDatas[index] = topicData
+            }
+            // 아니면 아무것도 안 함
+        } else {
+            // category가 없다면 추가
+            updatedTopicDatas.append(topicData)
+        }
+
+        // percentage 기준 내림차순 정렬
+        updatedTopicDatas.sort { $0.percentage > $1.percentage }
+
         return Stats(
             headerData: headerData,
             mostUsedData: mostUsedData,
             myEmotionDatas: myEmotionDatas,
             friendEmotionDatas: friendEmotionDatas,
-            topicDatas: topicDatas,
+            topicDatas: updatedTopicDatas,
             conversationTipData: conversationTipData
         )
     }
-    
+
     func addingAdviceData(conversationTipData: ConversationTipData) -> Stats {
         return Stats(
             headerData: headerData,
