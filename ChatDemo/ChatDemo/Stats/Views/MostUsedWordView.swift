@@ -12,7 +12,7 @@ struct MostUsedDataView: View {
                 Text("Sticker")
                     .bold()
 
-                Image(systemName: "star.fill")
+                Image(mostUsedData.stickerImageName)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 100, height: 100)

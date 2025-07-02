@@ -35,7 +35,9 @@ class StatsViewModel: ObservableObject {
                 ),
                 mostUsedData: MostUsedData(
                     word: mostUsedWord?.word ?? "",
-                    usedCount: mostUsedWord?.count ?? 0,
+                    wordEmotion: .happy,
+                    usedWordCount: mostUsedWord?.count ?? 0,
+                    stickerEmotion: .happy,
                     stickerImageName: mostUsedSticker?.sticker.imageName ?? Sticker.joy.imageName
                 )
             )
