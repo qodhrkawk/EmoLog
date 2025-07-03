@@ -1,7 +1,12 @@
+import Foundation
+
 struct MostUsedData {
-    let word: String
-    let wordEmotion: Emotion
-    let usedWordCount: Int
-    let stickerEmotion: Emotion
-    let stickerImageName: String
+    let sticker: Sticker
+    let words: [Word]
+}
+
+struct Word {
+    let id = UUID()
+    let text: String
+    let count: Int
 }

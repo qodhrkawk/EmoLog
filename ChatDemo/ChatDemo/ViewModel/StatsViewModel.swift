@@ -60,11 +60,8 @@ class StatsViewModel: ObservableObject {
                     formattedDateString: formattedDate(Date())
                 ),
                 mostUsedData: MostUsedData(
-                    word: mostUsedWord?.word ?? "",
-                    wordEmotion: .happy,
-                    usedWordCount: mostUsedWord?.count ?? 0,
-                    stickerEmotion: mostUsedSticker?.sticker.emotion ?? .happy,
-                    stickerImageName: mostUsedSticker?.sticker.imageName ?? Sticker.joy.imageName
+                    sticker: mostUsedSticker?.sticker ?? .joy,
+                    words: []
                 )
             )
 
@@ -142,8 +139,7 @@ class StatsViewModel: ObservableObject {
                     conversationTipData:
                         ConversationTipData(
                             title: "Tips",
-                            description: overallAdvice,
-                            icon: ""
+                            description: overallAdvice
                         )
                 )
             }
