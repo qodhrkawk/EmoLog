@@ -8,6 +8,9 @@ struct ConversationAdviceView: View {
             Text("Advice")
                 .modifier(TitleViewModifier())
 
+            Image("tip")
+                .resizable()
+                .scaledToFit()
             tipView(
                 title: adviceData.title,
                 description: adviceData.description,
