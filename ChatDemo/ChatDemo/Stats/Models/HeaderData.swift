@@ -1,4 +1,4 @@
 struct HeaderData {
     let name: String
-    let formattedDateString: String // 년 월 일
+    let dateString: String
 }

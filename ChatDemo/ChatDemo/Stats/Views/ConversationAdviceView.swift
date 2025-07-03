@@ -1,7 +1,7 @@
 internal import SwiftUI
 
-struct ConversationTipView: View {
-    let conversationTipData: ConversationTipData
+struct ConversationAdviceView: View {
+    let adviceData: ConversationAdviceData
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -9,8 +9,8 @@ struct ConversationTipView: View {
                 .modifier(TitleViewModifier())
 
             tipView(
-                title: conversationTipData.title,
-                description: conversationTipData.description,
+                title: adviceData.title,
+                description: adviceData.description,
                 color: Color(red: 99/255, green: 102/255, blue: 241/255, opacity: 0.05)
             )
             .padding(.vertical, 8)
@@ -59,14 +59,14 @@ struct TipOptionModifier: ViewModifier {
     }
 }
 
-struct ConversationTipView_Previews: PreviewProvider {
+struct ConversationAdviceView_Previews: PreviewProvider {
     static var previews: some View {
-        let tipData = ConversationTipData(
+        let adviceData = ConversationAdviceData(
             title: "맞춤 대화 팁",
             description: "서지연님과의 대화에서 긍정적인 피드백이 많이 오갔네요. 이런 대화 패턴을 유지하면서, 더 깊이 있는 대화를 나눠보는 건 어떨까요?"
         )
         ScrollView {
-            ConversationTipView(conversationTipData: tipData)
+            ConversationAdviceView(adviceData: adviceData)
         }
     }
 }

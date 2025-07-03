@@ -60,7 +60,7 @@ class StatsViewModel: ObservableObject {
             self.stats = Stats(
                 headerData: HeaderData(
                     name: User.myName,
-                    formattedDateString: formattedDate(Date())
+                    dateString: formattedDate(Date())
                 ),
                 mostUsedData: MostUsedData(
                     sticker: mostUsedSticker?.sticker ?? .joy,
@@ -144,7 +144,7 @@ class StatsViewModel: ObservableObject {
                 
                 self.stats = self.stats?.addingAdviceData(
                     conversationTipData:
-                        ConversationTipData(
+                        ConversationAdviceData(
                             title: "Tips",
                             description: overallAdvice
                         )
@@ -247,8 +247,8 @@ struct Stats {
     var myEmotionDatas: [EmotionData]?
     var friendEmotionDatas: [EmotionData]?
     var topicDatas: [TopicData]?
-    var conversationTipData: ConversationTipData?
-    
+    var conversationAdviceData: ConversationAdviceData?
+
     func addingMyEmotionData(emotionDatas: [EmotionData]) -> Stats {
         var myEmotionDatas = myEmotionDatas ?? []
         myEmotionDatas += emotionDatas
@@ -258,7 +258,7 @@ struct Stats {
             myEmotionDatas: myEmotionDatas,
             friendEmotionDatas: friendEmotionDatas,
             topicDatas: topicDatas,
-            conversationTipData: conversationTipData
+            conversationAdviceData: conversationAdviceData
         )
     }
     
@@ -271,7 +271,7 @@ struct Stats {
             myEmotionDatas: myEmotionDatas,
             friendEmotionDatas: friendEmotionDatas,
             topicDatas: topicDatas,
-            conversationTipData: conversationTipData
+            conversationAdviceData: conversationAdviceData
         )
     }
     
@@ -299,18 +299,18 @@ struct Stats {
             myEmotionDatas: myEmotionDatas,
             friendEmotionDatas: friendEmotionDatas,
             topicDatas: updatedTopicDatas,
-            conversationTipData: conversationTipData
+            conversationAdviceData: conversationAdviceData
         )
     }
 
-    func addingAdviceData(conversationTipData: ConversationTipData) -> Stats {
+    func addingAdviceData(conversationTipData: ConversationAdviceData) -> Stats {
         return Stats(
             headerData: headerData,
             mostUsedData: mostUsedData,
             myEmotionDatas: myEmotionDatas,
             friendEmotionDatas: friendEmotionDatas,
             topicDatas: topicDatas,
-            conversationTipData: conversationTipData
+            conversationAdviceData: conversationAdviceData
         )
     }
 }

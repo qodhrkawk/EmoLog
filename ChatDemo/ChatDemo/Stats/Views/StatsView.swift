@@ -41,8 +41,8 @@ struct StatsView: View {
                         ConversationTopicView(topicDatas: topicDatas)
                     }
 
-                    if let tip = stats.conversationTipData {
-                        ConversationTipView(conversationTipData: tip)
+                    if let advice = stats.conversationAdviceData {
+                        ConversationAdviceView(adviceData: advice)
                     }
                     
                     Button(action: {

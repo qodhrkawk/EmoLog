@@ -11,7 +11,7 @@ struct HeaderView: View {
                 .font(.title3)
                 .fontWeight(.bold)
 
-            Text("Based on \(headerData.formattedDateString)")
+            Text("Based on \(headerData.dateString)")
                 .font(.footnote)
             Spacer()
 
@@ -42,7 +42,7 @@ struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
         let headerData = HeaderData(
             name: "홍길동",
-            formattedDateString: "2023년 10월 1일",
+            dateString: "2023년 10월 1일",
         )
         ScrollView {
             HeaderView(headerData: headerData)
