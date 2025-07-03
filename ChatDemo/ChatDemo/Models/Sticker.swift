@@ -26,9 +26,24 @@ extension Sticker {
         rawValue
     }
     
-//    var emotion: Emotion {
-//        switch self {
-//            
-//        }
-//    }
+    var emotion: Emotion {
+        switch self {
+        case .amazing:
+            return .surprise
+        case .angry:
+            return .angry
+        case .fear:
+            return .fear
+        case .frustrated:
+            return .angry
+        case .joy:
+            return .happy
+        case .love:
+            return .love
+        case .sad:
+            return .sad
+        case .shock:
+            return .surprise
+        }
+    }
 }

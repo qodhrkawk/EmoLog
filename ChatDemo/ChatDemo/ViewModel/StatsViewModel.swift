@@ -14,18 +14,41 @@ class StatsViewModel: ObservableObject {
     }
     
     func fetchMessages() -> [any Message] {
-        // TODO: 일주일 필터링
-        return chatRoom.messages
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.timeZone = TimeZone.current
+
+        // 최근 7일간의 날짜 스트링 만들기
+        let recent7Days: Set<String> = (0..<7).map {
+            guard let day = calendar.date(byAdding: .day, value: -$0, to: today) else { return "" }
+            return formatter.string(from: day)
+        }.reduce(into: Set<String>()) { $0.insert($1) }
+
+        print("Recent 7 days (String): \(recent7Days)")
+
+        // 메시지를 해당 날짜 문자열 기준으로 필터링
+        return chatRoom.messages.filter { message in
+            let messageDateString = formatter.string(from: message.date)
+            return recent7Days.contains(messageDateString)
+        }
     }
-    
+
     func makeReportPerDay() {
         Task {
             let calendar = Calendar.current
             let messages = fetchMessages()
             
-            // 1. 날짜별 메시지 분리
+            // 날짜 포매터 (String 기반 그룹핑용)
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            formatter.timeZone = .current
+            
+            // 1. 날짜별 메시지 분리 (문자열 기준)
             let groupedMessages = Dictionary(grouping: messages) { message in
-                calendar.startOfDay(for: message.date)
+                formatter.string(from: message.date)
             }
 
             let mostUsedWord = mostUsedWord(messages: messages)
@@ -40,12 +63,14 @@ class StatsViewModel: ObservableObject {
                     word: mostUsedWord?.word ?? "",
                     wordEmotion: .happy,
                     usedWordCount: mostUsedWord?.count ?? 0,
-                    stickerEmotion: .happy,
+                    stickerEmotion: mostUsedSticker?.sticker.emotion ?? .happy,
                     stickerImageName: mostUsedSticker?.sticker.imageName ?? Sticker.joy.imageName
                 )
             )
+
             var dailyReports: [DailyReport] = []
-            for (date, messagesForDay) in groupedMessages.sorted(by: { $0.key < $1.key }) {
+
+            for (dateString, messagesForDay) in groupedMessages.sorted(by: { $0.key < $1.key }) {
                 let transcript = messagesForDay.compactMap { message in
                     if let text = message as? TextMessage {
                         return "[\(text.sender.name)]: \(text.text)"
@@ -74,25 +99,28 @@ class StatsViewModel: ObservableObject {
                     """
                     }.content
                     
-                    print("YJKIM Daily Report For \(date)\n\(dailyReport)")
+                    print("YJKIM Daily Report For \(dateString): \(dailyReport)")
                     
                     dailyReports.append(dailyReport)
-                    
+
+                    // Date 객체 필요 시 변환
+                    let date = formatter.date(from: dateString) ?? Date()
+
                     let myEmotions = emotionDatas(from: dailyReport, for: .me, date: date)
-                    
                     self.stats = self.stats?.addingMyEmotionData(emotionDatas: myEmotions)
-                    
+
                     if let partner = chatRoom.participants.first(where: { $0.name != User.me.name }) {
                         let friendEmotions = emotionDatas(from: dailyReport, for: partner, date: date)
                         self.stats = self.stats?.addingFriendEmotionData(emotionDatas: friendEmotions)
                     }
-                    
+
                     self.stats = self.stats?.addingTopicData(topicData: topicData(from: dailyReport))
                 }
                 catch {
-                    print("YJKIM ⚠️ Failed to create report for \(date): \(error)")
+                    print("YJKIM ⚠️ Failed to create report for \(dateString): \(error)")
                 }
             }
+
             do {
                 let adviceSession = LanguageModelSession(
                     instructions:
@@ -104,8 +132,8 @@ class StatsViewModel: ObservableObject {
                 
                 let overallAdvice = try await adviceSession.respond(generating: ConversationAdvice.self) {
                     """
-                    Wrap up the adivce based on the advices you gave before. 
-                    Each advices are separated with new line.
+                    Wrap up the advice based on the advices you gave before. 
+                    Each advice is separated with a new line.
                     \(advices)
                     """
                 }.content.advice
@@ -121,7 +149,6 @@ class StatsViewModel: ObservableObject {
             }
         }
     }
-    
     private func formattedTranscript(messages: [any Message]) -> String? {
         messages.compactMap { message in
             if let textMessage = message as? TextMessage {
