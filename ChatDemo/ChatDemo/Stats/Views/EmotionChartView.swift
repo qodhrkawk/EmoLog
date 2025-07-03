@@ -2,7 +2,7 @@ internal import SwiftUI
 import Charts
 
 struct EmotionChartView: View {
-    let title: String
+    let name: String
     let profileImageName: String
     let emotionDatas: [EmotionData]
 
@@ -15,7 +15,7 @@ struct EmotionChartView: View {
                     .frame(width: 40, height: 40)
                     .background(Color.pink)
                     .clipShape(Circle())
-                Text(title)
+                Text(name + "'s emotion changes")
                     .modifier(TitleViewModifier())
             }
             .padding(.bottom)
@@ -68,7 +68,7 @@ struct EmotionChartView_Previews: PreviewProvider {
         ]
         ScrollView {
             EmotionChartView(
-                title: "나의 감정변화",
+                name: "나",
                 profileImageName: "profileImageName",
                 emotionDatas: emotionDatas
             )
