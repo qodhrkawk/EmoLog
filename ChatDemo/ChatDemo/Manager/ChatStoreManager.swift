@@ -280,12 +280,12 @@ class ChatStoreManager {
         return [
             ChatRoom(name: "Chat Bot", participants: [User.bot, User.me], messages: [], chatType: .bot),
             ChatRoom(
-                name: "친구들",
+                name: "Friends",
                 participants: [User.me] + User.friends,
                 messages: day1Messages + day2Messages + day3Messages + day4Messages + day5Messages + day6Messages + day7Messages,
                 chatType: .friend
             ),
-            ChatRoom(name: "소개팅", participants: [User.me, User.cony], messages: blindDateMessages(), chatType: .blindDate)
+            ChatRoom(name: "Blind Date", participants: [User.me, User.cony], messages: blindDateMessages(), chatType: .blindDate)
         ]
     }
 
@@ -498,10 +498,10 @@ func blindDateMessages() -> [any Message] {
         TextMessage(sender: .cony, text: "Looking forward to it!", date: baseDateDay7.addingTimeInterval(300)),
         StickerMessage(sender: .me, sticker: .joy, date: baseDateDay7.addingTimeInterval(360)),
         // Additional conversation
-        TextMessage(sender: .me, text: "I really enjoyed our meeting today. Did you get home safely?", date: baseDateDay7.addingTimeInterval(36000)),
-        TextMessage(sender: .cony, text: "Yes! I had a lot of fun too. Thank you so much for dinner. Next time, I'll treat you.", date: baseDateDay7.addingTimeInterval(36480)),
-        TextMessage(sender: .me, text: "Then how about we go see a movie next time?", date: baseDateDay7.addingTimeInterval(36540)),
-        TextMessage(sender: .cony, text: "Sounds great!", date: baseDateDay7.addingTimeInterval(36600))
+//        TextMessage(sender: .me, text: "I really enjoyed our meeting today. Did you get home safely?", date: baseDateDay7.addingTimeInterval(36000)),
+//        TextMessage(sender: .cony, text: "Yes! I had a lot of fun too. Thank you so much for dinner. Next time, I'll treat you.", date: baseDateDay7.addingTimeInterval(36480)),
+//        TextMessage(sender: .me, text: "Then how about we go see a movie next time?", date: baseDateDay7.addingTimeInterval(36540)),
+//        TextMessage(sender: .cony, text: "Sounds great!", date: baseDateDay7.addingTimeInterval(36600))
     ]
     
     return firstDateConversation + secondDateConversation + thirdDateConversation + fourthDateConversation + fifthDateConversation + sixthDateConversation + seventhDateConversation

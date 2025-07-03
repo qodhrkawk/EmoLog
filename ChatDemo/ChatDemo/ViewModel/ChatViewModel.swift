@@ -72,8 +72,27 @@ class ChatViewModel: ObservableObject {
     func sendReport(_ stats: Stats) {
         let report = ReportMessage(sender: User.me, stats: stats)
         messages.append(report)
-//        store.addMessage(report, to: chatRoom)
     }
+    
+    func sendDemoMessages() {
+        let baseDateDay7 = dateFromString("2025-07-03")!
+        let messages = [
+            TextMessage(sender: .me, text: "I really enjoyed our meeting today. Did you get home safely?", date: baseDateDay7.addingTimeInterval(36000)),
+            TextMessage(sender: .cony, text: "Yes! I had a lot of fun too. Thank you so much for dinner. Next time, I'll treat you.", date: baseDateDay7.addingTimeInterval(36480)),
+            TextMessage(sender: .me, text: "Then how about we go see a movie next time?", date: baseDateDay7.addingTimeInterval(36540)),
+            TextMessage(sender: .cony, text: "Sounds great!", date: baseDateDay7.addingTimeInterval(36600))
+        ]
+        Task {
+            for message in messages {
+                await MainActor.run {
+                    self.messages.append(message)
+                    store.addMessage(message, to: chatRoom)
+                }
+                try? await Task.sleep(nanoseconds: 2_000_000_000)
+            }
+        }
+    }
+
     
     private func formattedTranscript() -> String? {
         messages.compactMap { message in

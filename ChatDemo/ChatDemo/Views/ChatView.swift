@@ -199,9 +199,6 @@ struct ChatView: View {
         .sheet(isPresented: $showSettings) {
             settingsSheet
         }
-//        .sheet(isPresented: $showAnalysisOptions) {
-//            analysisSheet
-//        }
     }
 
     private func groupedMessages() -> [(date: Date, messages: [any Message])] {
@@ -220,7 +217,6 @@ struct ChatView: View {
             viewModel: statsViewModel,
             chatViewModel: viewModel,
             onShare: { stats in
-//                reportStats = stats
                 showStatsView = false
                 viewModel.sendReport(stats)
             }
@@ -311,13 +307,13 @@ struct MenuPanelView: View {
         LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
             Button(action: onReportTap) {
                 VStack(spacing: 6) {
-                    Image(systemName: "chart.bar.fill")
+                    Image("report")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 36, height: 36)
                         .foregroundColor(.black)
 
-                    Text("리포트")
+                    Text("Report")
                         .font(.system(size: 12, weight: .bold))
                         .foregroundColor(.black)
                 }
@@ -329,32 +325,6 @@ struct MenuPanelView: View {
     }
 }
 
-//
-//struct MenuPanelView: View {
-//    let onReportTap: () -> Void
-//
-//    var body: some View {
-//        VStack(spacing: 8) {
-//            Button(action: onReportTap) {
-//                VStack(spacing: 6) {
-//                    Image(systemName: "chart.bar.fill")
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 36, height: 36)
-//                        .foregroundColor(.black)
-//
-//                    Text("리포트")
-//                        .font(.system(size: 12))
-//                        .foregroundColor(.black)
-//                }
-//                .padding()
-//                .background(Color.white)
-//                .clipShape(RoundedRectangle(cornerRadius: 16))
-//                .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
-//            }
-//        }
-//    }
-//}
 extension View {
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)

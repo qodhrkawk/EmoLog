@@ -15,8 +15,8 @@ struct StatsView: View {
     }
 
     var body: some View {
-        ScrollView {
-            if let stats = viewModel.stats {
+        if let stats = viewModel.stats, viewModel.isLoading == false {
+            ScrollView {
                 VStack(spacing: 20) {
                     HeaderView(headerData: stats.headerData)
                     MostUsedDataView(mostUsedData: stats.mostUsedData)
@@ -44,9 +44,8 @@ struct StatsView: View {
                     if let advice = stats.conversationAdviceData {
                         ConversationAdviceView(adviceData: advice)
                     }
-                    
+
                     Button(action: {
-                        guard let stats = viewModel.stats else { return }
                         onShare(stats)
                     }) {
                         HStack(spacing: 0) {
@@ -59,34 +58,27 @@ struct StatsView: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
-                        .background(Color(red: 112/255, green: 102/255, blue: 240/255)) // 보라색
+                        .background(Color(red: 112/255, green: 102/255, blue: 240/255))
                         .cornerRadius(12)
                     }
                     .padding(.horizontal)
                     .padding(.top, 8)
                 }
                 .padding()
-            } else {
-                VStack(spacing: 16) {
-                    ProgressView("데이터를 분석 중입니다...")
-                        .progressViewStyle(CircularProgressViewStyle())
-                    Button("다시 시도하기") {
-                        viewModel.makeReportPerDay()
-                    }
+            }
+        } else {
+            VStack {
+                Spacer()
+                LoadingView()
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onAppear {
+                if viewModel.stats == nil {
+                    viewModel.makeReportPerDay()
                 }
-                .padding(.top, 80)
             }
         }
-        .onChange(of: viewModel.isLoading) { isLoading in
-            if isLoading == false {
-//                guard let stats = viewModel.stats else { return }
-//                chatViewModel.sendReport(stats)
-            }
-        }
-        .onAppear {
-            if viewModel.stats == nil {
-                viewModel.makeReportPerDay()
-            }
-        }
+
     }
 }
