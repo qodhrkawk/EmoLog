@@ -133,17 +133,24 @@ class StatsViewModel: ObservableObject {
                 
                 let overallAdvice = try await adviceSession.respond(generating: ConversationAdvice.self) {
                     """
-                    Summarize the advices you gave before. 
-                    Each advice is separated with a new line.
-                    The result should be at most two sentences.
+                    Your task is to summarize the following list of advices into a maximum of two sentences and no more than 40 words in total.
+
+                    Important:
+                    - Do NOT exceed two sentences.
+                    - The total word count must NOT exceed 40 words.
+                    - Avoid repeating ideas.
+                    - Be clear and concise.
+
                     Here are the advices:
-                    
+
                     \(advices)
                     """
                 }.content.advice
                 
+                print("YJKIM overall advice: \(overallAdvice)")
+                
                 self.stats = self.stats?.addingAdviceData(
-                    conversationTipData:
+                    conversationAdivceData:
                         ConversationAdviceData(
                             title: "Tips",
                             description: overallAdvice
@@ -303,14 +310,14 @@ struct Stats {
         )
     }
 
-    func addingAdviceData(conversationTipData: ConversationAdviceData) -> Stats {
+    func addingAdviceData(conversationAdivceData: ConversationAdviceData) -> Stats {
         return Stats(
             headerData: headerData,
             mostUsedData: mostUsedData,
             myEmotionDatas: myEmotionDatas,
             friendEmotionDatas: friendEmotionDatas,
             topicDatas: topicDatas,
-            conversationAdviceData: conversationAdviceData
+            conversationAdviceData: conversationAdivceData
         )
     }
 }
