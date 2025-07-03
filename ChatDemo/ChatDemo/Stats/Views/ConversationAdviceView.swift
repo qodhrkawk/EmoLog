@@ -38,7 +38,7 @@ struct ConversationAdviceView: View {
                 Text(title)
                     .font(.system(size: 14))
 
-                Text(description)
+                Text(description.toAttributedString())
                     .font(.system(size: 14))
                     .foregroundColor(Color(red: 75/255, green: 85/255, blue: 99/255, opacity: 1))
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -68,5 +68,19 @@ struct ConversationAdviceView_Previews: PreviewProvider {
         ScrollView {
             ConversationAdviceView(adviceData: adviceData)
         }
+    }
+}
+
+extension String {
+    func toAttributedString() -> AttributedString {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineBreakMode = .byCharWrapping
+        let nsAttributedStr = NSAttributedString(
+            string: self,
+            attributes: [
+                .paragraphStyle: paragraphStyle
+            ])
+        let attrStr = AttributedString(nsAttributedStr)
+        return attrStr
     }
 }

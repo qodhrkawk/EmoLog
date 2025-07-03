@@ -314,3 +314,9 @@ struct Stats {
         )
     }
 }
+
+@Generable
+struct ConversationTipSummary {
+    @Guide(description: "Summarization of conversation tips. This should contain ")
+    let summary: String
+}

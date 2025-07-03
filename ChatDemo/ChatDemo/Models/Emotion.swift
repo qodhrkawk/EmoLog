@@ -1,4 +1,5 @@
 import FoundationModels
+internal import SwiftUI
 
 @Generable(description: "User name and emotion")
 struct UserEmotion {
@@ -41,4 +42,23 @@ enum Emotion: String {
     case fear
     case surprise
     case love
+}
+
+extension Emotion {
+    var color: Color {
+        switch self {
+        case .happy:
+            return Color(hex: "B0EDC4")!
+        case .sad:
+            return Color(hex: "839AFF")!
+        case .angry:
+            return Color(hex: "FFB17A")!
+        case .fear:
+            return Color(hex: "FF7D7D")!
+        case .surprise:
+            return Color(hex: "FFECAF")!
+        case .love:
+            return Color(hex: "FFCDD1")!
+        }
+    }
 }
