@@ -2,6 +2,7 @@ internal import SwiftUI
 
 struct ChatBubble: View {
     let message: any Message
+    let onReportTap: ((Stats) -> Void)?
 
     var isSender: Bool {
         message.sender == User.me
@@ -77,6 +78,15 @@ struct ChatBubble: View {
                 .background(Color.clear)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
         }
+        else if let reportMessage = message as? ReportMessage {
+            ReportSummaryView(stats: reportMessage.stats) {
+                onReportTap?(reportMessage.stats)
+            }
+                .padding(10)
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+        }
     }
 
     private func profileColor(for name: String) -> Color {
@@ -91,5 +101,31 @@ struct ChatBubble: View {
         formatter.amSymbol = "AM"
         formatter.pmSymbol = "PM"
         return formatter.string(from: message.date)
+    }
+}
+
+struct ReportSummaryView: View {
+    let stats: Stats
+    let onViewReport: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("📊 Conversation Report")
+                .font(.headline)
+
+            HeaderView(headerData: stats.headerData)
+            Spacer(minLength: 8)
+
+            Button(action: onViewReport) {
+                Text("View Full Report")
+                    .font(.subheadline.bold())
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                    .background(Color.blue.opacity(0.1))
+                    .foregroundColor(.blue)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

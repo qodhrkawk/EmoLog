@@ -4,9 +4,14 @@ internal import SwiftUI
 
 struct StatsView: View {
     @StateObject private var viewModel: StatsViewModel
+    
+    let chatViewModel: ChatViewModel
+    let onShare: (Stats) -> Void
 
-    init(viewModel: StatsViewModel) {
+    init(viewModel: StatsViewModel, chatViewModel: ChatViewModel, onShare: @escaping (Stats) -> Void) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        self.chatViewModel = chatViewModel
+        self.onShare = onShare
     }
 
     var body: some View {
@@ -39,6 +44,21 @@ struct StatsView: View {
                     if let tip = stats.conversationTipData {
                         ConversationTipView(conversationTipData: tip)
                     }
+                    
+                    Button(action: {
+                        guard let stats = viewModel.stats else { return }
+                        onShare(stats)
+                    }) {
+                        Text("Share to friend")
+                            .font(.subheadline.bold())
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
+                            .background(Color.blue)
+                            .cornerRadius(12)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 8)
                 }
                 .padding()
             } else {
@@ -50,6 +70,12 @@ struct StatsView: View {
                     }
                 }
                 .padding(.top, 80)
+            }
+        }
+        .onChange(of: viewModel.isLoading) { isLoading in
+            if isLoading == false {
+//                guard let stats = viewModel.stats else { return }
+//                chatViewModel.sendReport(stats)
             }
         }
         .onAppear {

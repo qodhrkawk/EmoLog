@@ -10,6 +10,8 @@ struct ChatView: View {
     @State private var isStickerPanelVisible = false
     @State private var isMenuPanelVisible = false
     @State private var showStatsView = false
+    
+    @State private var reportStats: Stats?
 
     init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
@@ -36,7 +38,10 @@ struct ChatView: View {
                                         .padding(.top, 8)
                             ) {
                                 ForEach(group.messages, id: \.id) { message in
-                                    ChatBubble(message: message)
+                                    ChatBubble(message: message) { stats in
+                                        self.reportStats = stats
+                                        showStatsView = true
+                                    }
                                 }
                             }
                         }
@@ -210,8 +215,16 @@ struct ChatView: View {
     
     @ViewBuilder
     private var statsSheet: some View {
-        let statsViewModel = StatsViewModel(chatRoom: viewModel.chatRoom)
-        StatsView(viewModel: statsViewModel)
+        let statsViewModel = StatsViewModel(chatRoom: viewModel.chatRoom, stats: reportStats)
+        StatsView(
+            viewModel: statsViewModel,
+            chatViewModel: viewModel,
+            onShare: { stats in
+//                reportStats = stats
+                showStatsView = false
+                viewModel.sendReport(stats)
+            }
+        )
     }
 
     @ViewBuilder
@@ -237,6 +250,7 @@ struct ChatView: View {
                 .font(.headline)
             Button("Make Report") {
                 showAnalysisOptions = false
+                reportStats = nil
                 showStatsView = true
             }
             .padding()
@@ -346,3 +360,4 @@ extension View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
+

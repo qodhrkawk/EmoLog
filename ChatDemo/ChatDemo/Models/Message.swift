@@ -34,3 +34,9 @@ struct StickerMessage: Message {
     }
 }
 
+struct ReportMessage: Message {
+    let id = UUID()
+    let date = Date()
+    let sender: User
+    let stats: Stats
+}

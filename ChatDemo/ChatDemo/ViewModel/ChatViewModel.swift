@@ -69,6 +69,12 @@ class ChatViewModel: ObservableObject {
         store.addMessage(userMessage, to: chatRoom)
     }
     
+    func sendReport(_ stats: Stats) {
+        let report = ReportMessage(sender: User.me, stats: stats)
+        messages.append(report)
+//        store.addMessage(report, to: chatRoom)
+    }
+    
     private func formattedTranscript() -> String? {
         messages.compactMap { message in
             if let textMessage = message as? TextMessage {

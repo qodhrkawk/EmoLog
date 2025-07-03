@@ -399,7 +399,8 @@ func dateFromString(_ dateString: String) -> Date? {
 }
 
 func blindDateMessages() -> [any Message] {
-    let baseDateDay1 = dateFromString("2025-06-25")!
+    // Day 1 Conversation - 자기소개 및 취미 공유
+    let baseDateDay1 = dateFromString("2025-06-27")!
 
     let firstDateConversation: [any Message] = [
         TextMessage(sender: .me, text: "Hey Cony! It's nice to finally meet you.", date: baseDateDay1),
@@ -418,7 +419,7 @@ func blindDateMessages() -> [any Message] {
     ]
 
     // Day 2 Conversation - 일요일에 만나자고 약속잡기
-    let baseDateDay2 = dateFromString("2025-06-26")!
+    let baseDateDay2 = dateFromString("2025-06-28")!
 
     let secondDateConversation: [any Message] = [
         TextMessage(sender: .me, text: "Hey Cony, how's your day going?", date: baseDateDay2),
@@ -434,7 +435,7 @@ func blindDateMessages() -> [any Message] {
     ]
 
     // Day 3 Conversation - 약속장소에 도착했다는 내용, 저녁엔 오늘 즐거웠다는 대화
-    let baseDateDay3 = dateFromString("2025-06-27")!
+    let baseDateDay3 = dateFromString("2025-06-29")!
 
     let thirdDateConversation: [any Message] = [
         TextMessage(sender: .me, text: "Hey Cony, I just arrived at the meeting spot.", date: baseDateDay3),
@@ -448,7 +449,7 @@ func blindDateMessages() -> [any Message] {
     ]
 
     // Day 4 Conversation - 일상공유
-    let baseDateDay4 = dateFromString("2025-06-28")!
+    let baseDateDay4 = dateFromString("2025-06-30")!
 
     let fourthDateConversation: [any Message] = [
         TextMessage(sender: .me, text: "Good morning, Cony! How's your Monday?", date: baseDateDay4),
@@ -461,7 +462,7 @@ func blindDateMessages() -> [any Message] {
     ]
 
     // Day 5 Conversation - 저녁에 갑자기 만나서 가볍게 맥주마시자는 내용
-    let baseDateDay5 = dateFromString("2025-06-29")!
+    let baseDateDay5 = dateFromString("2025-07-01")!
 
     let fifthDateConversation: [any Message] = [
         TextMessage(sender: .me, text: "Hey Cony, are you free tonight?", date: baseDateDay5),
@@ -474,7 +475,7 @@ func blindDateMessages() -> [any Message] {
     ]
 
     // Day 6 Conversation - 일상공유
-    let baseDateDay6 = dateFromString("2025-06-30")!
+    let baseDateDay6 = dateFromString("2025-07-02")!
 
     let sixthDateConversation: [any Message] = [
         TextMessage(sender: .me, text: "Hey Cony, how's your Wednesday going?", date: baseDateDay6),
@@ -485,17 +486,22 @@ func blindDateMessages() -> [any Message] {
         StickerMessage(sender: .cony, sticker: .love, date: baseDateDay6.addingTimeInterval(300))
     ]
 
-    // Day 7 Conversation - 이번 주말에 또 만나자는 약속잡기
-    let baseDateDay7 = dateFromString("2025-07-01")!
+    // Day 7 Conversation - 갑자기 만나서 피크닉 다녀오고, 저녁에 이어진 대화
+    let baseDateDay7 = dateFromString("2025-07-03")!
 
     let seventhDateConversation: [any Message] = [
-        TextMessage(sender: .me, text: "Hey Cony! Want to meet up again this weekend?", date: baseDateDay7),
-        TextMessage(sender: .cony, text: "Hi! I'd love to. What do you have in mind?", date: baseDateDay7.addingTimeInterval(60)),
+        TextMessage(sender: .me, text: "Hey Cony! Want to meet up again today?", date: baseDateDay7),
+        TextMessage(sender: .cony, text: "Hi! I’d love to. What do you have in mind?", date: baseDateDay7.addingTimeInterval(60)),
         TextMessage(sender: .me, text: "Maybe another hike or a picnic?", date: baseDateDay7.addingTimeInterval(120)),
-        TextMessage(sender: .cony, text: "Both sound great! Let's decide based on the weather.", date: baseDateDay7.addingTimeInterval(180)),
-        TextMessage(sender: .me, text: "Sounds good. I'll keep an eye on the forecast.", date: baseDateDay7.addingTimeInterval(240)),
+        TextMessage(sender: .cony, text: "Both sound great! Let’s decide based on the weather.", date: baseDateDay7.addingTimeInterval(180)),
+        TextMessage(sender: .me, text: "Sounds good. I’ll keep an eye on the forecast.", date: baseDateDay7.addingTimeInterval(240)),
         TextMessage(sender: .cony, text: "Looking forward to it!", date: baseDateDay7.addingTimeInterval(300)),
-        StickerMessage(sender: .me, sticker: .joy, date: baseDateDay7.addingTimeInterval(360))
+        StickerMessage(sender: .me, sticker: .joy, date: baseDateDay7.addingTimeInterval(360)),
+        // Additional conversation
+        TextMessage(sender: .me, text: "I really enjoyed our meeting today. Did you get home safely?", date: baseDateDay7.addingTimeInterval(36000)),
+        TextMessage(sender: .cony, text: "Yes! I had a lot of fun too. Thank you so much for dinner. Next time, I'll treat you.", date: baseDateDay7.addingTimeInterval(36480)),
+        TextMessage(sender: .me, text: "Then how about we go see a movie next time?", date: baseDateDay7.addingTimeInterval(36540)),
+        TextMessage(sender: .cony, text: "Sounds great!", date: baseDateDay7.addingTimeInterval(36600))
     ]
     
     return firstDateConversation + secondDateConversation + thirdDateConversation + fourthDateConversation + fifthDateConversation + sixthDateConversation + seventhDateConversation

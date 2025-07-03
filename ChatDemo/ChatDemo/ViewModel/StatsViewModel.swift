@@ -4,15 +4,17 @@ internal import SwiftUI
 
 class StatsViewModel: ObservableObject {
     @Published var stats: Stats?
+    @Published var isLoading: Bool = false
     let chatRoom: ChatRoom
     var partner: User? {
         chatRoom.participants.first(where: { $0.name != User.me.name })
     }
 
-    init(chatRoom: ChatRoom) {
+    init(chatRoom: ChatRoom, stats: Stats? = nil) {
         self.chatRoom = chatRoom
+        self.stats = stats
     }
-    
+
     func fetchMessages() -> [any Message] {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
@@ -38,6 +40,7 @@ class StatsViewModel: ObservableObject {
 
     func makeReportPerDay() {
         Task {
+            isLoading = true
             let calendar = Calendar.current
             let messages = fetchMessages()
             
@@ -115,6 +118,7 @@ class StatsViewModel: ObservableObject {
                 }
                 catch {
                     print("YJKIM ⚠️ Failed to create report for \(dateString): \(error)")
+                    isLoading = false
                 }
             }
 
@@ -129,8 +133,11 @@ class StatsViewModel: ObservableObject {
                 
                 let overallAdvice = try await adviceSession.respond(generating: ConversationAdvice.self) {
                     """
-                    Wrap up the advice based on the advices you gave before. 
+                    Summarize the advices you gave before. 
                     Each advice is separated with a new line.
+                    The result should be at most two sentences.
+                    Here are the advices:
+                    
                     \(advices)
                     """
                 }.content.advice
@@ -143,6 +150,11 @@ class StatsViewModel: ObservableObject {
                         )
                 )
             }
+            catch {
+                print("YJKIM ⚠️ Failed to create Adivce \(error)")
+                isLoading = false
+            }
+            isLoading = false
         }
     }
     private func formattedTranscript(messages: [any Message]) -> String? {
