@@ -23,7 +23,7 @@ struct StatsView: View {
 
                     if let myEmotions = stats.myEmotionDatas, !myEmotions.isEmpty {
                         EmotionChartView(
-                            title: "My emotional changes",
+                            name: User.myName,
                             profileImageName: User.me.imageName ?? "",
                             emotionDatas: myEmotions
                         )
@@ -31,7 +31,7 @@ struct StatsView: View {
 
                     if let friendEmotions = stats.friendEmotionDatas, !friendEmotions.isEmpty {
                         EmotionChartView(
-                            title: "Friend's emotional changes",
+                            name: viewModel.partner?.name ?? "Friend",
                             profileImageName: viewModel.partner?.imageName ?? "",
                             emotionDatas: friendEmotions
                         )
@@ -49,15 +49,20 @@ struct StatsView: View {
                         guard let stats = viewModel.stats else { return }
                         onShare(stats)
                     }) {
-                        Text("Share to friend")
-                            .font(.subheadline.bold())
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 10)
-                            .background(Color.blue)
-                            .cornerRadius(12)
+                        HStack(spacing: 0) {
+                            Image("shareButton")
+                                .resizable()
+                                .frame(width: 23, height: 21)
+                            Text("Share with Friends")
+                                .font(.system(size: 16, weight: .semibold))
+                        }
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                        .background(Color(red: 112/255, green: 102/255, blue: 240/255)) // 보라색
+                        .cornerRadius(12)
                     }
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.horizontal)
                     .padding(.top, 8)
                 }
                 .padding()

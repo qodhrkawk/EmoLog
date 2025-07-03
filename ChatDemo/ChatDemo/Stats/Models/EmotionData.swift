@@ -8,20 +8,20 @@ struct EmotionData: Identifiable, Equatable {
 }
 
 extension Emotion {
-    func color() -> Color {
+    var color: Color {
         switch self {
         case .happy:
-            return .yellow
+            return Color(hex: "C4ACFF")!
         case .sad:
-            return .blue
+            return Color(hex: "839AFF")!
         case .angry:
-            return .red
+            return Color(hex: "FFB17A")!
         case .fear:
-            return .purple
+            return Color(hex: "FF7D7D")!
         case .surprise:
-            return .orange
+            return Color(hex: "FFECAF")!
         case .love:
-            return .pink
+            return Color(hex: "FFCDD1")!
         }
     }
 }

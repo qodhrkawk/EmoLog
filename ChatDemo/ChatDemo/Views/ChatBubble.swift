@@ -110,9 +110,6 @@ struct ReportSummaryView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("📊 Conversation Report")
-                .font(.headline)
-
             HeaderView(headerData: stats.headerData)
             Spacer(minLength: 8)
 
@@ -125,6 +122,7 @@ struct ReportSummaryView: View {
                     .foregroundColor(.blue)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             }
+            Spacer()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

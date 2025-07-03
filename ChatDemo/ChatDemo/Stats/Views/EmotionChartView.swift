@@ -26,9 +26,9 @@ struct EmotionChartView: View {
                         x: .value("Date", emotion.dateString),
                         y: .value("Percentage", emotion.percentage)
                     )
-                    .foregroundStyle(emotion.emotion.color())
+                    .foregroundStyle(emotion.emotion.color)
                     .annotation(position: .overlay) {
-                        Text(emotion.percentage.formatted() + "%")
+                        Text(emotion.percentage.formatted())
                             .font(.system(size: 8))
                     }
                 }
@@ -36,12 +36,12 @@ struct EmotionChartView: View {
             .animation(.easeIn, value: emotionDatas)
             .chartYScale(domain: [0, 100])
             .chartForegroundStyleScale([
-                Emotion.happy.rawValue: .yellow,
-                Emotion.sad.rawValue: .blue,
-                Emotion.angry.rawValue: .red,
-                Emotion.fear.rawValue: .purple,
-                Emotion.surprise.rawValue: .orange,
-                Emotion.love.rawValue: .pink
+                Emotion.happy.rawValue: Emotion.happy.color,
+                Emotion.sad.rawValue: Emotion.sad.color,
+                Emotion.angry.rawValue: Emotion.angry.color,
+                Emotion.fear.rawValue: Emotion.fear.color,
+                Emotion.surprise.rawValue: Emotion.surprise.color,
+                Emotion.love.rawValue: Emotion.love.color
             ])
             .frame(height: 230)
             .padding(.horizontal)

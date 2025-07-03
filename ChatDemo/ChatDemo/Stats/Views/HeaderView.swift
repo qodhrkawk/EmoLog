@@ -18,9 +18,8 @@ struct HeaderView: View {
             Text("We analyzed the emotion patterns found in your messages.")
                 .font(.system(size: 14))
                 .padding()
-                .frame(
-                    width: UIScreen.main.bounds.width - 64, height: 75
-                )
+                .fixedSize(horizontal: false, vertical: true) // ✅ 추가
+                .multilineTextAlignment(.center) // ✅ 가운데 정렬
                 .background(
                     LinearGradient(
                         gradient: Gradient(

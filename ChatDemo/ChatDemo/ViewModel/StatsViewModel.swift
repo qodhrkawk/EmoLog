@@ -54,7 +54,7 @@ class StatsViewModel: ObservableObject {
                 formatter.string(from: message.date)
             }
 
-            let mostUsedWord = mostUsedWord(messages: messages)
+            let mostUsedWords = mostUsedWords(messages: messages).map { Word(text: $0.word, count: $0.count) }
             let mostUsedSticker = mostUsedSticker(messages: messages)
             
             self.stats = Stats(
@@ -64,7 +64,7 @@ class StatsViewModel: ObservableObject {
                 ),
                 mostUsedData: MostUsedData(
                     sticker: mostUsedSticker?.sticker ?? .joy,
-                    words: []
+                    words: mostUsedWords
                 )
             )
 
@@ -178,21 +178,24 @@ class StatsViewModel: ObservableObject {
         dateFormatter.dateFormat = "M/d"
         let dateString = dateFormatter.string(from: date)
 
-        let sortedScores = userEmotion.emotionWithScoreList.sorted(by: { $0.score > $1.score })
+        // 1. 동일한 Emotion 끼리 합산
+        let mergedScores = Dictionary(grouping: userEmotion.emotionWithScoreList, by: { $0.emotion })
+            .mapValues { $0.map(\.score).reduce(0, +) }
 
-        // 총합 구하기
-        let total = sortedScores.map { $0.score }.reduce(0, +)
+        // 2. 총합 구하기
+        let total = mergedScores.values.reduce(0, +)
         guard total > 0 else { return [] }
 
-        // 정규화하여 EmotionData 생성
-        return sortedScores.map { item in
-            let normalizedPercentage = Int(round(Double(item.score) / Double(total) * 100))
+        // 3. 정규화 및 EmotionData 생성
+        return mergedScores.map { (emotion, score) in
+            let normalizedPercentage = Int(round(Double(score) / Double(total) * 100))
             return EmotionData(
                 dateString: dateString,
                 percentage: normalizedPercentage,
-                emotion: item.emotion
+                emotion: emotion
             )
         }
+        .sorted(by: { $0.percentage > $1.percentage }) // 비율 높은 순 정렬 (선택사항)
     }
     
     func topicData(from dailyReport: DailyReport) -> TopicData {
@@ -201,8 +204,8 @@ class StatsViewModel: ObservableObject {
             percentage: dailyReport.category.confidence
         )
     }
-    
-    func mostUsedWord(messages: [any Message]) -> (word: String, count: Int)? {
+
+    func mostUsedWords(messages: [any Message]) -> [(word: String, count: Int)] {
         let words = messages
             .compactMap { $0 as? TextMessage }
             .flatMap { $0.text.lowercased().components(separatedBy: CharacterSet.alphanumerics.inverted) }
@@ -210,11 +213,8 @@ class StatsViewModel: ObservableObject {
 
         let freq = Dictionary(grouping: words, by: { $0 }).mapValues(\.count)
 
-        if let (key, value) = freq.max(by: { $0.value < $1.value }) {
-            return (word: key, count: value)
-        } else {
-            return nil
-        }
+        let sorted = freq.sorted(by: { $0.value > $1.value })
+        return Array(sorted.prefix(3)).map { (word: $0.key, count: $0.value) }
     }
 
     func mostUsedSticker(messages: [any Message]) -> (sticker: Sticker, count: Int)? {
