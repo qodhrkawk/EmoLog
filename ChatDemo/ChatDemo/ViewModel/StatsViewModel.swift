@@ -39,6 +39,7 @@ class StatsViewModel: ObservableObject {
     }
 
     func makeReportPerDay() {
+        let startDate = Date()
         Task {
             isLoading = true
             let calendar = Calendar.current
@@ -98,6 +99,15 @@ class StatsViewModel: ObservableObject {
                     \(transcript)
                     """
                     }.content
+                    
+                    print(
+    
+                        """
+                        YJKIM
+                        Make report from chat history:
+                        \(transcript)
+                        """
+                    )
                     
                     print("YJKIM Daily Report For \(dateString): \(dailyReport)")
                     
@@ -162,6 +172,7 @@ class StatsViewModel: ObservableObject {
                 isLoading = false
             }
             isLoading = false
+            print("YJKIM Elapsed time: \(Date().timeIntervalSince(startDate))")
         }
     }
     private func formattedTranscript(messages: [any Message]) -> String? {

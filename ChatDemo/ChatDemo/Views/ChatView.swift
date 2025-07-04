@@ -59,25 +59,22 @@ struct ChatView: View {
                         isMenuPanelVisible = false
                     }
                 }
+                .onAppear {
+                    scrollProxy.scrollTo("Bottom", anchor: .bottom)
+                }
                 .onChange(of: viewModel.messages.count) { _ in
                     withAnimation {
                         scrollProxy.scrollTo("Bottom", anchor: .bottom)
                     }
                 }
-                .onChange(of: viewModel.messages.last?.date) { _ in
-                    withAnimation {
-                        scrollProxy.scrollTo("Bottom", anchor: .bottom)
-                    }
+                .onReceive(keyboard.$keyboardHeight.debounce(for: 0.2, scheduler: RunLoop.main)) { _ in
+                    scrollProxy.scrollTo("Bottom", anchor: .bottom)
                 }
-                .onChange(of: keyboard.keyboardHeight) { _ in
-                    withAnimation {
-                        scrollProxy.scrollTo("Bottom", anchor: .bottom)
-                    }
+                .onChange(of: viewModel.messages.last?.date) { _ in
+                    scrollProxy.scrollTo("Bottom", anchor: .bottom)
                 }
                 .onChange(of: isStickerPanelVisible) { _ in
-                    withAnimation {
-                        scrollProxy.scrollTo("Bottom", anchor: .bottom)
-                    }
+                    scrollProxy.scrollTo("Bottom", anchor: .bottom)
                 }
                 .onTapGesture {
                     isStickerPanelVisible = false
@@ -171,15 +168,18 @@ struct ChatView: View {
                 })
             }
         }
-        .animation(nil, value: isStickerPanelVisible)
+        .animation(nil, value: keyboard.keyboardHeight)
+        .animation(nil, value: isMenuPanelVisible)
+        .animation(nil, value: showStatsView)
         .animation(nil, value: isTextFieldFocused)
+        .animation(nil, value: isStickerPanelVisible)
         .background(Color(UIColor.systemBackground))
         .onAppear {
             viewModel.prewarm()
         }
-        .onTapGesture {
-            isTextFieldFocused = false
-        }
+//        .onTapGesture {
+//            isTextFieldFocused = false
+//        }
         .onChange(of: isTextFieldFocused) {
             isStickerPanelVisible = false
             isMenuPanelVisible = false
@@ -232,6 +232,10 @@ struct ChatView: View {
 
             Toggle("Enable Streaming Response", isOn: $viewModel.isStreamingEnabled)
                 .padding()
+            
+            Button("Remove custom conversations") {
+                viewModel.removeCustomMessages()
+            }
 
             Spacer()
         }

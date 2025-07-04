@@ -93,6 +93,20 @@ class ChatViewModel: ObservableObject {
         }
     }
 
+    func removeCustomMessages() {
+        let lastDay = dateFromString("2025-07-02")!
+        let lastMessageDate = lastDay.addingTimeInterval(36600)
+
+        let messagesToRemove = messages.filter { $0.date > lastMessageDate }
+
+        // 메모리에서 제거
+        messages.removeAll(where: { $0.date > lastMessageDate })
+
+        // DB에서도 제거
+        for message in messagesToRemove {
+            store.removeMessage(message, from: chatRoom)
+        }
+    }
     
     private func formattedTranscript() -> String? {
         messages.compactMap { message in
