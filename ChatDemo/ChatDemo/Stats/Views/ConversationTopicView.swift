@@ -35,7 +35,7 @@ struct ConversationTopicView: View {
                     }
                     .padding(16)
                     .frame(width: 140, height: 140)
-                    .background(topic.category.color())
+//                    .background(topic.category.color())
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
             }
@@ -47,16 +47,16 @@ struct ConversationTopicView: View {
 
 struct ConversationTopicView_Previews: PreviewProvider {
     static var previews: some View {
-        let topicDatas = [
-            TopicData(category: .employment, percentage: 32),
-            TopicData(category: .event, percentage: 32),
-            TopicData(category: .food, percentage: 32),
-            TopicData(category: .health, percentage: 32),
-            TopicData(category: .love, percentage: 32),
-            TopicData(category: .daily, percentage: 32)
-        ]
+//        let topicDatas = [
+//            TopicData(category: .employment, percentage: 32),
+//            TopicData(category: .event, percentage: 32),
+//            TopicData(category: .food, percentage: 32),
+//            TopicData(category: .health, percentage: 32),
+//            TopicData(category: .love, percentage: 32),
+//            TopicData(category: .daily, percentage: 32)
+//        ]
         ScrollView {
-            ConversationTopicView(topicDatas: topicDatas)
+//            ConversationTopicView(topicDatas: topicDatas)
         }
     }
 }

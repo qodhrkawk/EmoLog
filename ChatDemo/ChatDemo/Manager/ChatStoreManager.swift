@@ -296,7 +296,17 @@ class ChatStoreManager {
                 messages: day1Messages + day2Messages + day3Messages + day4Messages + day5Messages + day6Messages + day7Messages,
                 chatType: .friend
             ),
-            ChatRoom(name: "Blind Date", participants: [User.me, User.cony], messages: blindDateMessages(), chatType: .blindDate)
+            ChatRoom(name: "Blind Date", participants: [User.me, User.cony], messages: blindDateMessages(), chatType: .blindDate),
+            ChatRoom(name: "Summary", participants: [User.me] + User.friends, messages: summarizeMessages(), chatType: .friend),
+            ChatRoom(name: "Summary - Korean", participants: [User.me] + User.friends, messages: summarizeMessagesKorean(), chatType: .friend),
+            ChatRoom(name: "Summary - Japanese", participants: [User.me] + User.friends, messages: summarizeMessagesJapanese(), chatType: .friend),
+            ChatRoom(name: "Sticker", participants: [User.me] + User.friends, messages: stickerMessages(), chatType: .friend),
+            ChatRoom(name: "Album", participants: [User.me] + User.friends, messages: albumMessages(), chatType: .friend),
+            ChatRoom(name: "Emotion", participants: [User.me] + User.friends, messages: sentimentMessages(), chatType: .friend),
+            ChatRoom(name: "Translate", participants: [User.me] + User.friends, messages: translateMessages(), chatType: .friend),
+            ChatRoom(name: "Font", participants: [User.me] + User.friends, messages: fontConversationMessages(), chatType: .friend),
+            ChatRoom(name: "Spam", participants: [User.me] + User.friends, messages: investmentInvitationMessages(), chatType: .friend),
+
         ]
     }
 
@@ -411,7 +421,7 @@ func dateFromString(_ dateString: String) -> Date? {
 
 func blindDateMessages() -> [any Message] {
     // Day 1 Conversation - 자기소개 및 취미 공유
-    let baseDateDay1 = dateFromString("2025-06-27")!
+    let baseDateDay1 = dateFromString("2025-07-03")!
 
     let firstDateConversation: [any Message] = [
         TextMessage(sender: .me, text: "Hey Cony! It's nice to finally meet you.", date: baseDateDay1),
@@ -430,7 +440,7 @@ func blindDateMessages() -> [any Message] {
     ]
 
     // Day 2 Conversation - 일요일에 만나자고 약속잡기
-    let baseDateDay2 = dateFromString("2025-06-28")!
+    let baseDateDay2 = dateFromString("2025-07-04")!
 
     let secondDateConversation: [any Message] = [
         TextMessage(sender: .me, text: "Hey Cony, how's your day going?", date: baseDateDay2),
@@ -446,7 +456,7 @@ func blindDateMessages() -> [any Message] {
     ]
 
     // Day 3 Conversation - 약속장소에 도착했다는 내용, 저녁엔 오늘 즐거웠다는 대화
-    let baseDateDay3 = dateFromString("2025-06-29")!
+    let baseDateDay3 = dateFromString("2025-07-05")!
 
     let thirdDateConversation: [any Message] = [
         TextMessage(sender: .me, text: "Hey Cony, I just arrived at the meeting spot.", date: baseDateDay3),
@@ -460,7 +470,7 @@ func blindDateMessages() -> [any Message] {
     ]
 
     // Day 4 Conversation - 일상공유
-    let baseDateDay4 = dateFromString("2025-06-30")!
+    let baseDateDay4 = dateFromString("2025-07-06")!
 
     let fourthDateConversation: [any Message] = [
         TextMessage(sender: .me, text: "Good morning, Cony! How's your Monday?", date: baseDateDay4),
@@ -473,7 +483,7 @@ func blindDateMessages() -> [any Message] {
     ]
 
     // Day 5 Conversation - 저녁에 갑자기 만나서 가볍게 맥주마시자는 내용
-    let baseDateDay5 = dateFromString("2025-07-01")!
+    let baseDateDay5 = dateFromString("2025-07-07")!
 
     let fifthDateConversation: [any Message] = [
         TextMessage(sender: .me, text: "Hey Cony, are you free tonight?", date: baseDateDay5),
@@ -486,7 +496,7 @@ func blindDateMessages() -> [any Message] {
     ]
 
     // Day 6 Conversation - 일상공유
-    let baseDateDay6 = dateFromString("2025-07-02")!
+    let baseDateDay6 = dateFromString("2025-07-08")!
 
     let sixthDateConversation: [any Message] = [
         TextMessage(sender: .me, text: "Hey Cony, how's your Wednesday going?", date: baseDateDay6),
@@ -498,7 +508,7 @@ func blindDateMessages() -> [any Message] {
     ]
 
     // Day 7 Conversation - 갑자기 만나서 피크닉 다녀오고, 저녁에 이어진 대화
-    let baseDateDay7 = dateFromString("2025-07-03")!
+    let baseDateDay7 = dateFromString("2025-07-09")!
 
     let seventhDateConversation: [any Message] = [
         TextMessage(sender: .me, text: "Hey Cony! Want to meet up again today?", date: baseDateDay7),
@@ -517,4 +527,204 @@ func blindDateMessages() -> [any Message] {
     
     return firstDateConversation + secondDateConversation + thirdDateConversation + fourthDateConversation + fifthDateConversation + sixthDateConversation + seventhDateConversation
 
+}
+
+
+func summarizeMessages() -> [any Message] {
+    let baseDateDay1 = dateFromString("2025-07-09")!
+
+    return [
+        TextMessage(sender: User.junhyuk, text: "Hey everyone, do we have any ideas for the team dinner?", date: baseDateDay1),
+        TextMessage(sender: User.me, text: "Hey! Just got back from a meeting. I'm good with anything, but something hearty would be nice.", date: baseDateDay1.addingTimeInterval(60)),
+        TextMessage(sender: User.hyeonji, text: "Hi hi! Korean BBQ, anyone?", date: baseDateDay1.addingTimeInterval(120)),
+        TextMessage(sender: User.wonseob, text: "Hey all. Korean BBQ sounds good, but haven’t we had that like twice this month?", date: baseDateDay1.addingTimeInterval(180)),
+        TextMessage(sender: User.jongyoun, text: "Yeah, I think we had it last week too.", date: baseDateDay1.addingTimeInterval(240)),
+        TextMessage(sender: User.hyeonji, text: "Oh right, forgot about that. Then maybe something different...", date: baseDateDay1.addingTimeInterval(300)),
+        TextMessage(sender: User.me, text: "I’d be up for trying something new too.", date: baseDateDay1.addingTimeInterval(360)),
+        TextMessage(sender: User.junhyuk, text: "Same here. Any suggestions?", date: baseDateDay1.addingTimeInterval(420)),
+        TextMessage(sender: User.hyeonji, text: "Hmm... then how about grilled eel? It’s supposed to be great for stamina.", date: baseDateDay1.addingTimeInterval(480)),
+        TextMessage(sender: User.wonseob, text: "Interesting choice! Haven’t had that in a while.", date: baseDateDay1.addingTimeInterval(540)),
+        TextMessage(sender: User.jongyoun, text: "Actually, that sounds pretty good.", date: baseDateDay1.addingTimeInterval(600)),
+        TextMessage(sender: User.me, text: "Yeah, grilled eel sounds amazing. Good idea.", date: baseDateDay1.addingTimeInterval(660)),
+        TextMessage(sender: User.junhyuk, text: "I’m in. Let's go with that.", date: baseDateDay1.addingTimeInterval(720)),
+        TextMessage(sender: User.wonseob, text: "I'm down. When and where?", date: baseDateDay1.addingTimeInterval(780)),
+        TextMessage(sender: User.jongyoun, text: "Nice. I’ll look for a place and share the link.", date: baseDateDay1.addingTimeInterval(840)),
+        TextMessage(sender: User.hyeonji, text: "Yay, can’t wait!", date: baseDateDay1.addingTimeInterval(900)),
+        TextMessage(sender: User.me, text: "Same here. It's been a while since we all hung out like this.", date: baseDateDay1.addingTimeInterval(960))
+    ]
+}
+
+func summarizeMessagesKorean() -> [any Message] {
+    let baseDateDay1 = dateFromString("2025-07-09")!
+
+    return [
+        TextMessage(sender: User.junhyuk, text: "여러분, 팀 회식 어디서 할지 아이디어 있어요?", date: baseDateDay1),
+        TextMessage(sender: User.me, text: "회의 막 끝났어요! 전 뭐든 괜찮은데, 든든한 거였으면 좋겠어요.", date: baseDateDay1.addingTimeInterval(60)),
+        TextMessage(sender: User.hyeonji, text: "안녕하세요~! 고기 어때요, 고기?", date: baseDateDay1.addingTimeInterval(120)),
+        TextMessage(sender: User.wonseob, text: "좋긴 한데 이번 달에 벌써 두 번 먹지 않았나요?", date: baseDateDay1.addingTimeInterval(180)),
+        TextMessage(sender: User.jongyoun, text: "맞아요, 지난주에도 갔던 것 같아요.", date: baseDateDay1.addingTimeInterval(240)),
+        TextMessage(sender: User.hyeonji, text: "아 맞다… 까먹었어요. 그럼 다른 걸로...", date: baseDateDay1.addingTimeInterval(300)),
+        TextMessage(sender: User.me, text: "저도 새로운 거 먹고 싶어요.", date: baseDateDay1.addingTimeInterval(360)),
+        TextMessage(sender: User.junhyuk, text: "좋아요. 다른 추천은요?", date: baseDateDay1.addingTimeInterval(420)),
+        TextMessage(sender: User.hyeonji, text: "그럼 장어구이는 어때요? 몸보신에도 좋대요!", date: baseDateDay1.addingTimeInterval(480)),
+        TextMessage(sender: User.wonseob, text: "오! 장어라니 오랜만인데요?", date: baseDateDay1.addingTimeInterval(540)),
+        TextMessage(sender: User.jongyoun, text: "생각보다 괜찮은데요?", date: baseDateDay1.addingTimeInterval(600)),
+        TextMessage(sender: User.me, text: "좋아요. 장어구이 완전 좋네요.", date: baseDateDay1.addingTimeInterval(660)),
+        TextMessage(sender: User.junhyuk, text: "그럼 장어로 결정~", date: baseDateDay1.addingTimeInterval(720)),
+        TextMessage(sender: User.wonseob, text: "좋아요! 장소랑 시간은요?", date: baseDateDay1.addingTimeInterval(780)),
+        TextMessage(sender: User.jongyoun, text: "제가 장소 찾아보고 링크 공유할게요.", date: baseDateDay1.addingTimeInterval(840)),
+        TextMessage(sender: User.hyeonji, text: "꺄, 기대돼요!", date: baseDateDay1.addingTimeInterval(900)),
+        TextMessage(sender: User.me, text: "맞아요. 다 같이 모이는 거 진짜 오랜만이네요.", date: baseDateDay1.addingTimeInterval(960))
+    ]
+}
+
+func summarizeMessagesJapanese() -> [any Message] {
+    let baseDateDay1 = dateFromString("2025-07-09")!
+
+    return [
+        TextMessage(sender: User.junhyuk, text: "みんな、チームの食事会どうする？アイデアある？", date: baseDateDay1),
+        TextMessage(sender: User.me, text: "やっと会議終わった！何でもいいけど、ガッツリ系がいいな。", date: baseDateDay1.addingTimeInterval(60)),
+        TextMessage(sender: User.hyeonji, text: "こんにちは〜！焼肉どう？", date: baseDateDay1.addingTimeInterval(120)),
+        TextMessage(sender: User.wonseob, text: "いいけど、今月もう2回くらい行ってない？", date: baseDateDay1.addingTimeInterval(180)),
+        TextMessage(sender: User.jongyoun, text: "うん、先週も行った気がする。", date: baseDateDay1.addingTimeInterval(240)),
+        TextMessage(sender: User.hyeonji, text: "あ、そうだった！じゃあ別のにしよう〜", date: baseDateDay1.addingTimeInterval(300)),
+        TextMessage(sender: User.me, text: "新しいのにチャレンジしてみたい！", date: baseDateDay1.addingTimeInterval(360)),
+        TextMessage(sender: User.junhyuk, text: "そうだね。何かオススメある？", date: baseDateDay1.addingTimeInterval(420)),
+        TextMessage(sender: User.hyeonji, text: "じゃあ、うなぎはどう？スタミナにもいいらしいよ。", date: baseDateDay1.addingTimeInterval(480)),
+        TextMessage(sender: User.wonseob, text: "おっ、それは久しぶりかも。", date: baseDateDay1.addingTimeInterval(540)),
+        TextMessage(sender: User.jongyoun, text: "実はそれ、いいかも！", date: baseDateDay1.addingTimeInterval(600)),
+        TextMessage(sender: User.me, text: "うなぎいいね！美味しそう。", date: baseDateDay1.addingTimeInterval(660)),
+        TextMessage(sender: User.junhyuk, text: "じゃあ、それで決まり！", date: baseDateDay1.addingTimeInterval(720)),
+        TextMessage(sender: User.wonseob, text: "OK〜！いつ、どこにする？", date: baseDateDay1.addingTimeInterval(780)),
+        TextMessage(sender: User.jongyoun, text: "お店探してリンク送るね。", date: baseDateDay1.addingTimeInterval(840)),
+        TextMessage(sender: User.hyeonji, text: "楽しみ〜！", date: baseDateDay1.addingTimeInterval(900)),
+        TextMessage(sender: User.me, text: "みんなで集まるの、久しぶりだよね。", date: baseDateDay1.addingTimeInterval(960))
+    ]
+}
+
+func stickerMessages() -> [any Message] {
+    let baseDateDay1 = dateFromString("2025-07-09")!
+
+    return [
+        TextMessage(sender: User.me, text: "I think today’s meeting went pretty smoothly.", date: baseDateDay1),
+        TextMessage(sender: User.junhyuk, text: "Yeah, we actually wrapped up on time for once.", date: baseDateDay1.addingTimeInterval(60)),
+        TextMessage(sender: User.jongyoun, text: "That rarely happens. Kind of impressive.", date: baseDateDay1.addingTimeInterval(120)),
+        TextMessage(sender: User.hyeonji, text: "Everyone was surprisingly focused today.", date: baseDateDay1.addingTimeInterval(180)),
+        TextMessage(sender: User.wonseob, text: "Except when we got sidetracked by the coffee machine discussion.", date: baseDateDay1.addingTimeInterval(240)),
+        StickerMessage(sender: User.hyeonji, sticker: .joy, date: baseDateDay1.addingTimeInterval(300)),
+        TextMessage(sender: User.me, text: "Wait, that sticker is adorable.", date: baseDateDay1.addingTimeInterval(360)),
+        TextMessage(sender: User.junhyuk, text: "I was just about to say that! I’ve never seen that one.", date: baseDateDay1.addingTimeInterval(420)),
+        TextMessage(sender: User.jongyoun, text: "Seriously, how do you always have the best stickers?", date: baseDateDay1.addingTimeInterval(480)),
+        TextMessage(sender: User.hyeonji, text: "Haha, glad you like it.", date: baseDateDay1.addingTimeInterval(540)),
+        TextMessage(sender: User.wonseob, text: "That one fits you perfectly, too.", date: baseDateDay1.addingTimeInterval(600))
+    ]
+}
+
+func fontConversationMessages() -> [any Message] {
+    let baseDateDay1 = dateFromString("2025-07-09")!
+
+    return [
+        TextMessage(sender: User.hyeonji, text: "I just got a new font!", date: baseDateDay1),
+        TextMessage(sender: User.junhyuk, text: "A new font? What kind?", date: baseDateDay1.addingTimeInterval(60)),
+        TextMessage(sender: User.jongyoun, text: "Wait, like a typeface? Show us!", date: baseDateDay1.addingTimeInterval(120)),
+        TextMessage(sender: User.wonseob, text: "Did you buy it or was it free?", date: baseDateDay1.addingTimeInterval(180)),
+        TextMessage(sender: User.hyeonji, text: "I bought it. It's super clean and stylish—perfect for titles.", date: baseDateDay1.addingTimeInterval(240)),
+        TextMessage(sender: User.me, text: "Ooo I’m curious. Can you send a sample?", date: baseDateDay1.addingTimeInterval(300)),
+        TextMessage(sender: User.hyeonji, text: "Sure, give me a sec!", date: baseDateDay1.addingTimeInterval(360)),
+        StickerMessage(sender: User.hyeonji, sticker: .joy, date: baseDateDay1.addingTimeInterval(420)),
+        TextMessage(sender: User.junhyuk, text: "Looks so modern! I love it.", date: baseDateDay1.addingTimeInterval(480)),
+        TextMessage(sender: User.jongyoun, text: "What's it called? I might get it too.", date: baseDateDay1.addingTimeInterval(540)),
+        TextMessage(sender: User.hyeonji, text: "It’s called ‘Mushin’. Totally worth it.", date: baseDateDay1.addingTimeInterval(600))
+    ]
+}
+func albumMessages() -> [any Message] {
+    let baseDateDay1 = dateFromString("2025-07-09")!
+
+    return [
+        TextMessage(sender: User.me, text: "Morning everyone. Hope you're not too swamped today.", date: baseDateDay1),
+        TextMessage(sender: User.hyeonji, text: "Hey! Feels like a long week already.", date: baseDateDay1.addingTimeInterval(60)),
+        TextMessage(sender: User.wonseob, text: "Tell me about it. I haven’t even finished Tuesday’s work.", date: baseDateDay1.addingTimeInterval(120)),
+        TextMessage(sender: User.jongyoun, text: "Same here. Can we fast-forward to the weekend?", date: baseDateDay1.addingTimeInterval(180)),
+        TextMessage(sender: User.junhyuk, text: "Haha, only if someone finds the remote.", date: baseDateDay1.addingTimeInterval(240)),
+
+        TextMessage(sender: User.me, text: "By the way, remember our trip to Sokcho last spring?", date: baseDateDay1.addingTimeInterval(360)),
+        TextMessage(sender: User.hyeonji, text: "Of course! That café by the beach was so relaxing.", date: baseDateDay1.addingTimeInterval(420)),
+        TextMessage(sender: User.wonseob, text: "Was that the place with the huge window view?", date: baseDateDay1.addingTimeInterval(480)),
+        TextMessage(sender: User.jongyoun, text: "Yeah, and the drinks were overpriced but looked amazing.", date: baseDateDay1.addingTimeInterval(540)),
+        TextMessage(sender: User.junhyuk, text: "Didn’t it rain the first day though?", date: baseDateDay1.addingTimeInterval(600)),
+        TextMessage(sender: User.me, text: "Yeah, but the sky cleared up just in time for those sunset shots.", date: baseDateDay1.addingTimeInterval(660)),
+        TextMessage(sender: User.hyeonji, text: "I still love that photo we took on the rocks. The colors were unreal.", date: baseDateDay1.addingTimeInterval(720)),
+        TextMessage(sender: User.jongyoun, text: "Didn’t we post a bunch of those here back then?", date: baseDateDay1.addingTimeInterval(780))
+    ]
+}
+
+func sentimentMessages() -> [any Message] {
+    let baseDateDay1 = dateFromString("2025-07-09")!
+
+    return [
+        TextMessage(sender: User.me, text: "The release has been delayed. Again.", date: baseDateDay1),
+        TextMessage(sender: User.junhyuk, text: "Of course it has. Why am I not surprised.", date: baseDateDay1.addingTimeInterval(30)),
+        TextMessage(sender: User.wonseob, text: "I’m actually angry now. This is the third damn delay this month.", date: baseDateDay1.addingTimeInterval(60)),
+        TextMessage(sender: User.junhyuk, text: "Every single time it’s the same excuse.", date: baseDateDay1.addingTimeInterval(90)),
+        TextMessage(sender: User.wonseob, text: "This isn’t just frustrating. I’m really angry at how we’re being treated.", date: baseDateDay1.addingTimeInterval(120)),
+
+        TextMessage(sender: User.jongyoun, text: "I was actually really looking forward to the release today...", date: baseDateDay1.addingTimeInterval(180)),
+        TextMessage(sender: User.jongyoun, text: "I told my family I’d finally be able to show them something.", date: baseDateDay1.addingTimeInterval(240)),
+        TextMessage(sender: User.jongyoun, text: "Now I just feel... deflated.", date: baseDateDay1.addingTimeInterval(300)),
+
+        TextMessage(sender: User.hyeonji, text: "Did anyone try that new matcha place near the office?", date: baseDateDay1.addingTimeInterval(420)),
+        TextMessage(sender: User.wonseob, text: "...Hyeonji? Are you even listening? We’re all angry here.", date: baseDateDay1.addingTimeInterval(450)),
+        TextMessage(sender: User.hyeonji, text: "What? I got the soft cream latte, and it was amazing.", date: baseDateDay1.addingTimeInterval(480)),
+        TextMessage(sender: User.junhyuk, text: "We’re talking about release delays, not desserts.", date: baseDateDay1.addingTimeInterval(510)),
+        TextMessage(sender: User.hyeonji, text: "I mean... it helped me feel better, at least.", date: baseDateDay1.addingTimeInterval(540)),
+
+        TextMessage(sender: User.wonseob, text: "That’s great. While you’re out having desserts, I’m stuck being angry at this mess.", date: baseDateDay1.addingTimeInterval(600)),
+        TextMessage(sender: User.me, text: "Alright, let’s stay on track.", date: baseDateDay1.addingTimeInterval(660)),
+
+        TextMessage(sender: User.jongyoun, text: "I guess we just wait. Again.", date: baseDateDay1.addingTimeInterval(720)),
+        TextMessage(sender: User.junhyuk, text: "Waiting doesn’t fix the process.", date: baseDateDay1.addingTimeInterval(750)),
+        TextMessage(sender: User.wonseob, text: "I’m angry because we’ve been completely ignored. Over and over again.", date: baseDateDay1.addingTimeInterval(780)),
+        TextMessage(sender: User.me, text: "Let’s regroup tomorrow and plan around the new schedule.", date: baseDateDay1.addingTimeInterval(840))
+    ]
+}
+
+func translateMessages() -> [any Message] {
+    let baseDateDay1 = dateFromString("2025-07-09")!
+    
+    return [
+        TextMessage(sender: User.me, text: "Good morning, everyone!", date: baseDateDay1),
+        TextMessage(sender: User.hyeonji, text: "Morning! Did you all sleep well?", date: baseDateDay1.addingTimeInterval(30)),
+        TextMessage(sender: User.wonseob, text: "I stayed up too late watching a movie.", date: baseDateDay1.addingTimeInterval(60)),
+        TextMessage(sender: User.jongyoun, text: "Same here. What movie did you watch?", date: baseDateDay1.addingTimeInterval(90)),
+        TextMessage(sender: User.wonseob, text: "The new sci-fi one on Netflix. It was pretty good.", date: baseDateDay1.addingTimeInterval(120)),
+        TextMessage(sender: User.junhyuk, text: "I started that too but fell asleep halfway.", date: baseDateDay1.addingTimeInterval(150)),
+        TextMessage(sender: User.me, text: "You guys and your late-night habits.", date: baseDateDay1.addingTimeInterval(180)),
+        TextMessage(sender: User.hyeonji, text: "I actually slept early for once.", date: baseDateDay1.addingTimeInterval(210)),
+        TextMessage(sender: User.jongyoun, text: "That’s rare! What’s the occasion?", date: baseDateDay1.addingTimeInterval(240)),
+        TextMessage(sender: User.hyeonji, text: "Just super tired from yesterday’s meetings.", date: baseDateDay1.addingTimeInterval(270)),
+        TextMessage(sender: User.junhyuk, text: "Speaking of which, do we have any today?", date: baseDateDay1.addingTimeInterval(300)),
+        TextMessage(sender: User.me, text: "Yeah, just the sync at 2 PM.", date: baseDateDay1.addingTimeInterval(330)),
+        TextMessage(sender: User.wonseob, text: "Is it online or in person?", date: baseDateDay1.addingTimeInterval(360)),
+        TextMessage(sender: User.me, text: "Online. Link’s in the calendar invite.", date: baseDateDay1.addingTimeInterval(390)),
+        TextMessage(sender: User.junhyuk, text: "Cool, thanks.", date: baseDateDay1.addingTimeInterval(420)),
+        TextMessage(sender: User.hyeonji, text: "Also, don’t forget to submit your timesheets today.", date: baseDateDay1.addingTimeInterval(450)),
+        TextMessage(sender: User.jongyoun, text: "Ugh, thanks for the reminder.", date: baseDateDay1.addingTimeInterval(480)),
+        TextMessage(sender: User.me, text: "Let’s all do it right after lunch.", date: baseDateDay1.addingTimeInterval(510)),
+        TextMessage(sender: User.wonseob, text: "Agreed. Then I won’t forget.", date: baseDateDay1.addingTimeInterval(540)),
+        TextMessage(sender: User.junhyuk, text: "Sounds like a plan.", date: baseDateDay1.addingTimeInterval(570))
+    ]
+}
+
+func investmentInvitationMessages() -> [any Message] {
+    let baseDate = dateFromString("2025-07-09")!
+
+    return [
+        TextMessage(sender: User.akihiro, text: "My name is Akihiro Nishino. What should I call you?", date: baseDate),
+        TextMessage(sender: User.me, text: "It's Takahashi!", date: baseDate.addingTimeInterval(60)),
+        TextMessage(sender: User.akihiro, text: "Want to know about blue chip stocks? Want to learn investment skills?", date: baseDate.addingTimeInterval(120)),
+        TextMessage(sender: User.me, text: "I want to learn!", date: baseDate.addingTimeInterval(180)),
+        TextMessage(sender: User.akihiro, text: "Do you have investment experience?", date: baseDate.addingTimeInterval(240)),
+        TextMessage(sender: User.me, text: "Not!", date: baseDate.addingTimeInterval(300)),
+        TextMessage(sender: User.akihiro, text: "Please add official LINE to invite to study group", date: baseDate.addingTimeInterval(360))
+    ]
 }

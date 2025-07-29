@@ -10,6 +10,7 @@ struct ChatView: View {
     @State private var isStickerPanelVisible = false
     @State private var isMenuPanelVisible = false
     @State private var showStatsView = false
+    @State private var showKeywordPopup = false
     
     @State private var reportStats: Stats?
 
@@ -163,9 +164,7 @@ struct ChatView: View {
                 .transition(.identity)
             }
             if isMenuPanelVisible {
-                MenuPanelView(onReportTap: {
-                    showStatsView = true
-                })
+                menuPanel
             }
         }
         .animation(nil, value: keyboard.keyboardHeight)
@@ -177,6 +176,10 @@ struct ChatView: View {
         .onAppear {
             viewModel.prewarm()
         }
+        .onChange(of: viewModel.extractedKeyword) { keyword in
+            handleKeywordChange(keyword)
+        }
+//        .onChange(of: viewModel.someInt, perform: handleKeywordChange)
 //        .onTapGesture {
 //            isTextFieldFocused = false
 //        }
@@ -199,6 +202,81 @@ struct ChatView: View {
         .sheet(isPresented: $showSettings) {
             settingsSheet
         }
+        .alert("\(viewModel.extractedKeyword?.popupTitle ?? "")", isPresented: $showKeywordPopup) {
+            Button("Cancel", role: .cancel) {
+                print("삭제 선택")
+            }
+            Button("\(viewModel.extractedKeyword?.proceedButtonTitle ?? "ㅇㅇ")", role: .confirm) {
+                if let url = viewModel.extractedKeyword?.url {
+                    UIApplication.shared.open(url)
+                }
+            }
+        } message: {
+            Text("\(viewModel.extractedKeyword?.popupDescription ?? "ㅇㅇ")").font(.title)
+        }
+//        .overlay {
+//            if showKeywordPopup, let keyword = viewModel.extractedKeyword {
+//                VStack(spacing: 20) {
+//                    Text(keyword.popupDescription)
+//                        .font(.title2)
+//                        .multilineTextAlignment(.center) // ✅ 가운데 정렬 가능
+//                        .padding()
+//
+//                    HStack {
+//                        Button("Cancel") {
+//                            showKeywordPopup = false
+//                        }
+//                        Spacer()
+//                        Button(keyword.proceedButtonTitle) {
+//                            // Do something
+//                            showKeywordPopup = false
+//                        }
+//                    }
+//                    .padding(.horizontal)
+//                }
+//                .padding()
+//                .frame(maxWidth: 300)
+//                .background(Color.white)
+//                .cornerRadius(16)
+//                .shadow(radius: 20)
+//            }
+//        }
+    }
+    
+    var menuPanel: some View {
+        MenuPanelView(
+            onReportTap: handleReportTap,
+            onSummaryTap: handleSummaryTap,
+            onEmotionTap: handleEmotionTap,
+            onKeywordTap: handleKeywordTap,
+            onTranslateTap: handleTranslateTap
+        )
+    }
+
+    private func handleReportTap() {
+        showStatsView = true
+        isMenuPanelVisible = false
+    }
+
+    private func handleSummaryTap() {
+        isMenuPanelVisible = false
+        viewModel.summarize()
+    }
+
+    private func handleEmotionTap() {
+        isMenuPanelVisible = false
+        viewModel.sentimentAnalysis()
+    }
+
+    private func handleKeywordTap() {
+        isMenuPanelVisible = false
+        viewModel.extractKeywords()
+    }
+    
+    private func handleTranslateTap() {
+        isMenuPanelVisible = false
+//        viewModel.translate()
+        viewModel.checkSpam()
     }
 
     private func groupedMessages() -> [(date: Date, messages: [any Message])] {
@@ -208,6 +286,12 @@ struct ChatView: View {
         return grouped
             .map { ($0.key, $0.value) }
             .sorted { $0.0 < $1.0 }
+    }
+    
+    private func handleKeywordChange(_ keyword: Keyword?) {
+        if keyword != nil {
+            showKeywordPopup = true
+        }
     }
     
     @ViewBuilder
@@ -304,28 +388,55 @@ struct StickerPanelView: View {
 
 struct MenuPanelView: View {
     let onReportTap: () -> Void
+    let onSummaryTap: () -> Void
+    let onEmotionTap: () -> Void
+    let onKeywordTap: () -> Void
+    let onTranslateTap: () -> Void
 
-    private let columns = Array(repeating: GridItem(.flexible(), spacing: 0, alignment: .top), count: 4)
+    private let columns = Array(repeating: GridItem(.flexible(), spacing: 0, alignment: .top), count: 5)
 
     var body: some View {
-        LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
-            Button(action: onReportTap) {
-                VStack(spacing: 6) {
-                    Image("report")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 36, height: 36)
-                        .foregroundColor(.black)
-
-                    Text("Report")
-                        .font(.system(size: 12, weight: .bold))
-                        .foregroundColor(.black)
-                }
-                .frame(width: 84, height: 84) // 정사각형
-            }
+        LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
+            MenuButton(imageName: "report", isSystemImage: false, title: "Report", action: onReportTap)
+            MenuButton(imageName: "doc.text.magnifyingglass", isSystemImage: true, title: "Summary", action: onSummaryTap)
+            MenuButton(imageName: "face.smiling", isSystemImage: true, title: "Emotion", action: onEmotionTap)
+            MenuButton(imageName: "tag", isSystemImage: true, title: "Keyword", action: onKeywordTap)
+            MenuButton(imageName: "globe", isSystemImage: true, title: "Translate", action: onTranslateTap)
         }
-        .padding(.horizontal, 16)
+        .padding(.horizontal, 12)
         .padding(.vertical, 8)
+    }
+}
+
+struct MenuButton: View {
+    let imageName: String
+    let isSystemImage: Bool
+    let title: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 6) {
+                Group {
+                    if isSystemImage {
+                        Image(systemName: imageName)
+                            .resizable()
+                    } else {
+                        Image(imageName)
+                            .resizable()
+                    }
+                }
+                .scaledToFit()
+                .frame(width: 28, height: 28)
+                .foregroundColor(.black)
+
+                Text(title)
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundColor(.black)
+                    .multilineTextAlignment(.center)
+            }
+            .frame(width: 72, height: 72)
+        }
     }
 }
 
@@ -335,3 +446,52 @@ extension View {
     }
 }
 
+
+struct KeywordPopup: View {
+    let title: String
+    let cancelTitle: String
+    let confirmTitle: String
+    let onCancel: () -> Void
+    let onConfirm: () -> Void
+
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.4)
+                .ignoresSafeArea()
+                .transition(.opacity)
+
+            VStack(spacing: 16) {
+                Text(title)
+                    .font(.headline)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+
+                HStack(spacing: 16) {
+                    Button(action: onCancel) {
+                        Text(cancelTitle)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color(.systemGray5))
+                            .cornerRadius(12)
+                    }
+
+                    Button(action: onConfirm) {
+                        Text(confirmTitle)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                    }
+                }
+                .padding(.horizontal)
+            }
+            .padding()
+            .background(Color(UIColor.systemBackground))
+            .cornerRadius(20)
+            .padding(.horizontal, 32)
+            .shadow(radius: 10)
+            .transition(.scale)
+        }
+    }
+}
