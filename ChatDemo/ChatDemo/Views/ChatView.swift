@@ -276,7 +276,7 @@ struct ChatView: View {
     private func handleTranslateTap() {
         isMenuPanelVisible = false
 //        viewModel.translate()
-        viewModel.checkSpam()
+        viewModel.checkSpamWithReason()
     }
 
     private func groupedMessages() -> [(date: Date, messages: [any Message])] {

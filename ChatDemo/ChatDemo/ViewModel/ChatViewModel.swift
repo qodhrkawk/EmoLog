@@ -188,6 +188,7 @@ class ChatViewModel: ObservableObject {
                     "Extract keyword from chat history: \(formattedTranscript())"
                 }.content
                 
+                
                 let botMessage = "Keyword detected: \(conversationKeyword.keyword) \nConfidence: \(conversationKeyword.confidence)"
                 let newMessage = TextMessage(sender: User.bot, text: botMessage)
 //                self.extractedKeyword = conversationKeyword
@@ -308,7 +309,7 @@ class ChatViewModel: ObservableObject {
         }
     }
     
-    func checkSpam() {
+    func checkSpamForEachUser() {
         let session = LanguageModelSession(instructions:
             """
             Anlayze the chat history. Check if the users are potentially spam, fraud, or phishing.
@@ -319,6 +320,9 @@ class ChatViewModel: ObservableObject {
         )
         Task {
             do {
+                print("YJKIM Formatted: \(formattedTranscript())")
+
+                
                 let userInfos = try await session.respond(generating: [SpamInfo].self) {
                 """
                 Extract KindInfo array from chat history: 
@@ -342,6 +346,128 @@ class ChatViewModel: ObservableObject {
             }
         }
     }
+    
+    func checkSpamWithReason() {
+        guard
+            let adapterURL = Bundle.main.url(forResource: "SpamAdapter", withExtension: "fmadapter"),
+            let adapter = try? SystemLanguageModel.Adapter(fileURL: adapterURL)
+        else {
+            fatalError("Adapter not found")
+        }
+        
+        let customAdapterModel = SystemLanguageModel(adapter: adapter)
+
+        let session = LanguageModelSession(
+            model: customAdapterModel,
+            instructions:
+            """
+            You are a conversation safety evaluator. Check the conversation is spam or not.
+
+            Analyze the following group chat transcript and determine whether the conversation, as a whole, appears to be a form of malicious activity such as **investment fraud, phishing, or financial scam**.
+
+            Focus specifically on harmful intent, not general advertising.
+
+            Pay attention to:
+            - Unrealistic or suspicious financial offers
+            - Urgency or pressure to send money or take financial action
+            - Promises of guaranteed profits or insider deals
+            - Requests for payment or personal information
+            - Deceptive or manipulative tone
+
+            Do **NOT** consider general commercial promotions, coupons, or business announcements as spam.
+
+            Format each message as:
+            [UserName]: message
+
+            Based on the full conversation, return a single structured judgment:
+            - spamScore: Spam score value about an integer from 0 (not a scam/phishing at all) to 100 (clearly a scam/phishing attempt)
+            - reason: a brief explanation supporting the score
+            """
+        )
+        Task {
+            do {
+                let startDate = Date()
+                let spamReport = try await session.respond(generating: SpamReport.self) {
+                """
+                Extract Spam report from chat history: 
+                \(formattedTranscript())
+                """
+                }.content
+                
+                let reportText = "Spam Score: \(spamReport.spamScore)\n Reason: \(spamReport.reason)"
+                
+                print("ReportText: \(reportText)")
+                print("Elapsed Time: \(Date().timeIntervalSince(startDate))")
+                
+                let newMessage = TextMessage(sender: User.bot, text: reportText)
+                messages.append(newMessage)
+            }
+            catch {
+                let botMessage = TextMessage(sender: User.bot, text: "Keyword Failed")
+                messages.append(botMessage)
+                print("YJKIM error: \(error)")
+            }
+        }
+    }
+    
+    func checkSpam() {
+        guard
+            let adapterURL = Bundle.main.url(forResource: "SpamAdapter", withExtension: "fmadapter"),
+            let adapter = try? SystemLanguageModel.Adapter(fileURL: adapterURL)
+        else {
+            fatalError("Adapter not found")
+        }
+        
+        let customAdapterModel = SystemLanguageModel(adapter: adapter)
+
+        let session = LanguageModelSession(
+            model: customAdapterModel,
+            instructions:
+            """
+            You are a conversation safety evaluator. Check the conversation is spam or not.
+
+            Analyze the following group chat transcript and determine whether the conversation, as a whole, appears to be a form of malicious activity such as **investment fraud, phishing, or financial scam**.
+
+            Focus specifically on harmful intent, not general advertising.
+
+            Pay attention to:
+            - Unrealistic or suspicious financial offers
+            - Urgency or pressure to send money or take financial action
+            - Promises of guaranteed profits or insider deals
+            - Requests for payment or personal information
+            - Deceptive or manipulative tone
+
+            Do **NOT** consider general commercial promotions, coupons, or business announcements as spam.
+
+            Format each message as:
+            [UserName]: message
+
+            Based on the full conversation, return a single integer judgment:
+            - spamScore: Spam score value about an integer from 0 (not a scam/phishing at all) to 100 (clearly a scam/phishing attempt)
+            """
+        )
+        Task {
+            do {
+                let startDate = Date()
+                let spamScore = try await session.respond(generating: Int.self) {
+                """
+                Extract Spam report from chat history: 
+                \(formattedTranscript())
+                """
+                }.content
+                
+                let reportText = "Spam Score: \(spamScore)"
+                
+                
+                let newMessage = TextMessage(sender: User.bot, text: reportText)
+                messages.append(newMessage)
+            }
+            catch {
+                let botMessage = TextMessage(sender: User.bot, text: "Keyword Failed")
+                messages.append(botMessage)
+            }
+        }
+    }
 }
 
 
@@ -352,4 +478,12 @@ struct SpamInfo {
     
     @Guide(description: "The confidence for the user is phishing, fraud, or scam", .range(0...100))
     let spamScore: Int
+}
+
+@Generable(description: "Check if the conversation is phishing, fraud, or scam")
+struct SpamReport {
+    @Guide(description: "The confidence for the conversation is phishing, fraud, or scam", .range(0...100))
+    let spamScore: Int
+    @Guide(description: "The reason for the spamScore")
+    let reason: String
 }

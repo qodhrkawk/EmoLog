@@ -24,6 +24,19 @@ extension User {
     static let akihiro = User(name: "akihiro")
     static let myName = "Brown"
     
+    static let sampleUsers = [userA, userB, userC, userD, userE, userF, userG, userH, userI, userJ, userK]
+    static let userA = User(name: "UserA", birthDay: dateFromString("1991-05-01"))
+    static let userB = User(name: "UserB", birthDay: dateFromString("1991-05-01"))
+    static let userC = User(name: "UserC", birthDay: dateFromString("1991-05-01"))
+    static let userD = User(name: "UserD", birthDay: dateFromString("1991-05-01"))
+    static let userE = User(name: "UserE", birthDay: dateFromString("1991-05-01"))
+    static let userF = User(name: "UserF", birthDay: dateFromString("1991-05-01"))
+    static let userG = User(name: "UserG", birthDay: dateFromString("1991-05-01"))
+    static let userH = User(name: "UserH", birthDay: dateFromString("1991-05-01"))
+    static let userI = User(name: "UserI", birthDay: dateFromString("1991-05-01"))
+    static let userJ = User(name: "UserJ", birthDay: dateFromString("1991-05-01"))
+    static let userK = User(name: "UserK", birthDay: dateFromString("1991-05-01"))
+
     static let cony = User(name: "Cony", imageName: "cony_profile")
     
     static let friends = [junhyuk, hyeonji, jongyoun, wonseob, cony]
